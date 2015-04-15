@@ -11,3 +11,6 @@ c:\users\pectyo\documents\visual studio 2013\Projects\WpfApplication1\WpfApplica
 c:\users\pectyo\documents\visual studio 2013\Projects\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.csproj.GenerateResource.Cache
 c:\users\pectyo\documents\visual studio 2013\Projects\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.exe
 c:\users\pectyo\documents\visual studio 2013\Projects\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.pdb
+F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe.config
+F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.exe
+F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.pdb

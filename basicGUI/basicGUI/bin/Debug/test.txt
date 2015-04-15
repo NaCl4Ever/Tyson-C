@@ -1,0 +1,7 @@
+This is a sample text we are going to be working with. 
+-:Tyson Results:-
+----------------------------------------------------
+Total Sentences: 1
+Word Count: 13
+Unique Words: 13
+File up to date as of: 3/17/2015
