@@ -8,7 +8,7 @@
             <ColumnDefinition Width="333*"/>
             <ColumnDefinition Width="578*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="Content" HorizontalAlignment="Left" Height="318" Margin="128,126,0,0" TextWrapping="Wrap" IsReadOnly="True" Text="Begin typing your essay here" VerticalAlignment="Top" Width="406" Grid.Column="1" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33"/>
+        <TextBox x:Name="Content" HorizontalAlignment="Left" Height="318" Margin="128,126,0,0" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="406" Grid.Column="1" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33"/>
         <TextBlock x:Name="WordCountLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Word Count" VerticalAlignment="Top" Margin="16,60,0,0" Height="24" Width="83"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sentences" VerticalAlignment="Top" Margin="16,84,0,0" Height="24" Width="83"/>
         <TextBox x:Name="WordCount" HorizontalAlignment="Left" Height="23" Margin="104,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
@@ -21,7 +21,7 @@
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Is:" VerticalAlignment="Top" Margin="16,180,0,0" Height="23" Width="79" TextAlignment="Center"/>
         <TextBox x:Name="timeOfTest" HorizontalAlignment="Left" Height="36" Margin="110,286,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" TextChanged="FrequencyOfWord_TextChanged" />
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="In Minutes" VerticalAlignment="Top" Margin="172,288,0,0" Height="23" Width="79" TextAlignment="Center"/>
-        <RichTextBox x:Name="contentTest" HorizontalAlignment="Left" Height="61" Margin="61,220,0,0" VerticalAlignment="Top" Width="123">
+        <RichTextBox x:Name="richBox" HorizontalAlignment="Left" Height="61" Margin="61,220,0,0" VerticalAlignment="Top" Width="123">
             <FlowDocument/>
         </RichTextBox>
         <DockPanel HorizontalAlignment="Left" Height="24" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" Width="1042" Grid.ColumnSpan="2">
@@ -31,7 +31,8 @@
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Load Folder" Click="batchLoad" Height="27" ToolTip="Loads an entire directory will only load text files"/>
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
-                    <MenuItem Header="Save Current" Click="exporttoFile" ToolTip="Exports file to a"/>
+                    <MenuItem Header="Save" Click="exporttoFile" ToolTip="Exports file in plaintext readable in any text reader"/>
+                    <MenuItem Header="Encrypt Save" Click="encryptExport" ToolTip="Exports file securely"/>
                     <MenuItem Header="Exit" Click="shutDown"/>
                 </MenuItem>
             </Menu>

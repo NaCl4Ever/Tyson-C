@@ -40,3 +40,45 @@ F:\Users\Jordan\Documents\Visual Studio 2013\Projects\basicGUI\basicGUI\bin\Debu
 F:\Users\Jordan\Documents\Visual Studio 2013\Projects\basicGUI\basicGUI\obj\Debug\basicGUI.exe
 F:\Users\Jordan\Documents\Visual Studio 2013\Projects\basicGUI\basicGUI\obj\Debug\basicGUI.pdb
 F:\Users\Jordan\Documents\Visual Studio 2013\Projects\basicGUI\basicGUI\obj\Debug\basicGUI.csprojResolveAssemblyReference.cache
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\basicGUI.exe.config
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.exe
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.pdb
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\basicGUI.exe
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\basicGUI.pdb
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.AWT.WinForms.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Beans.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Charsets.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Cldrdata.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Corba.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Core.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Jdbc.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Localedata.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Management.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Media.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Misc.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Naming.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Nashorn.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Remoting.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Security.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.SwingAWT.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Text.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Tools.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.Util.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.API.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.Bind.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.Crypto.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.Parse.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.Transform.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.WebServices.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.OpenJDK.XML.XPath.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.Runtime.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\IKVM.Runtime.JNI.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\bin\Debug\stanford-ner.dll
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.csprojResolveAssemblyReference.cache
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\MainWindow.baml
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\MainWindow.g.cs
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\App.g.cs
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI_MarkupCompile.cache
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.g.resources
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.Properties.Resources.resources
+V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.csproj.GenerateResource.Cache

@@ -64,8 +64,10 @@ namespace basicGUI
         }
         private void Update()
         {
+            //Content.IsReadOnly = false;
             
             string Essay = Content.Text;
+            System.Windows.Forms.MessageBox.Show("Here we go!");
             wordCount(Essay);
             WordCount.Text = (currentWordCount.ToString());
             UniqueCount.Text = (UniqueWords(Essay).ToString());
@@ -76,8 +78,8 @@ namespace basicGUI
             updateListBox();
             checkCriteria();
             
+            
         }
-
         private void Update2()
         {
 
@@ -112,7 +114,6 @@ namespace basicGUI
             }
 
         }
-        
         private void getSentences(string inTextBlock)
         {
             string[] characters = inTextBlock.Split(' ');
@@ -389,9 +390,6 @@ namespace basicGUI
         
         
         }
-          
-       
-
         private void exporttoFile(object sender, RoutedEventArgs e)
         {
 
@@ -421,7 +419,6 @@ namespace basicGUI
             
             
         }
-
         private void startTimer(object sender, RoutedEventArgs e)
         {
             if(timeOfTest.Text!=null){
@@ -513,9 +510,6 @@ namespace basicGUI
                 
             }
         }
-
-        
-
         private void exportTest(object sender, RoutedEventArgs e)
         {
             List<string> filecontents = new List<string>(0);
@@ -582,7 +576,6 @@ namespace basicGUI
             
 
         }
-
         private void loadTest(object sender, RoutedEventArgs e)
         {
             List<bool> contents = new List<bool>(0);
@@ -649,7 +642,6 @@ namespace basicGUI
 
             }
         }
-
         private void Window_Deactivated(object sender, EventArgs e)
         {
             if(testModeIsEnabled == true)
@@ -698,9 +690,25 @@ namespace basicGUI
             byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0,
              toEncryptArray.Length);
             tdes.Clear();
-            Content.Text = Convert.ToBase64String(resultArray, 0, resultArray.Length);
+            string results = Convert.ToBase64String(resultArray, 0, resultArray.Length);
+
+            if (currfile == null)
+            {
+                string outfileLocation = Microsoft.VisualBasic.Interaction.InputBox("Please provide a fileName to export to. (No extenstions just a name please)", "Title", "Apple", -1, -1);
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile + ".tySon", false))
+                {
+                    outputFile.WriteLine(results);
+                }
 
 
+            }
+            else
+            {
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile, false))
+                {
+                    outputFile.WriteLine(results);
+                }
+            }
 
             
         }
