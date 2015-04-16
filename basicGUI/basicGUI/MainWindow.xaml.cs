@@ -23,7 +23,7 @@ using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Security;
 using System.Security.Cryptography;
-using System.Text;
+
 using System.Web;
 
 
@@ -37,12 +37,14 @@ namespace basicGUI
         List<string> currFileList = new List<string>(0);
         string currfile = null;
         List<string> wordBank = new List<string>(0);
+        List<string> testWordBank = new List<string>(0);
         int currentSentCount = 0;
         int currentWordCount = 0;
         string testKey;
         Boolean paperPass = false;
         Boolean testModeIsEnabled = false;
         static System.Timers.Timer myTimer;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -74,7 +76,7 @@ namespace basicGUI
             getSentences(Essay);
             Sentences.Text = (currentSentCount.ToString());
 
-            FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
+            //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
             updateListBox();
             checkCriteria();
             
@@ -90,7 +92,7 @@ namespace basicGUI
             getSentences(Essay);
             Sentences.Text = (currentSentCount.ToString());
 
-            FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
+            //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
             updateListBox();
             checkCriteria();
         }
@@ -447,12 +449,23 @@ namespace basicGUI
 
         private void submitWord(object sender, RoutedEventArgs e)
         {
-            if (!wordBank.Contains(wordBank_Entry.Text))
+            if (!wordBank.Contains(wordBank_Entry.Text) && main_Display.IsVisible)
             {
 
                 wordBank.Add(wordBank_Entry.Text);
                 updateListBox();
+
             }
+            else if(!testWordBank.Contains(testWordEntry.Text))
+            {
+
+                testWordBank.Add(testWordEntry.Text);
+                updateListBoxTest();
+            }
+            
+            
+            
+            
         }
         private Boolean wordBankEval()
         {
@@ -500,6 +513,12 @@ namespace basicGUI
         
         
         }
+
+        private void updateListBoxTest()
+        {
+            testWordBox.ItemsSource = testWordBank;
+            testWordBox.Items.Refresh();
+        }
         private void removeSelected(object sender, RoutedEventArgs e)
         {
             if (wordBankListBox.SelectedItem != null)
@@ -508,6 +527,19 @@ namespace basicGUI
                 wordBank.Remove(selectedItem);
                 updateListBox();
                 
+            }
+        }
+
+        private void removeSelectedTest(object sender, RoutedEventArgs e)
+        {
+           
+
+            if (testWordBox.SelectedItem != null)
+            {
+                string selectedItem = testWordBox.SelectedItem.ToString();
+                testWordBank.Remove(selectedItem);
+                updateListBoxTest();
+
             }
         }
         private void exportTest(object sender, RoutedEventArgs e)
@@ -525,40 +557,42 @@ namespace basicGUI
                 contents.Add(false);
             }
             
-            if(!minSentences.Text.Equals("")){
-                filecontents.Add( minSentences.Text);
+            if(!minSentTest.Text.Equals("")){
+                filecontents.Add( minSentTest.Text);
                 contents.RemoveAt(0);
                 contents.Insert(0, true);
             }
-            if (!minWords.Text.Equals("")) {
-                filecontents.Add(minWords.Text);
+            if (!minWordsTest.Text.Equals("")) {
+                filecontents.Add(minWordsTest.Text);
                 contents.RemoveAt(1);
                 contents.Insert(1, true);
             }
-            if (!timeOfTest.Text.Equals(""))
+            if (!testDuration.Text.Equals(""))
             {
-                filecontents.Add(timeOfTest.Text);
+                filecontents.Add(testDuration.Text);
                 contents.RemoveAt(2);
                 contents.Insert(2, true);
             }
-            if (wordBank.Count>0)
+            
+            if (testWordBank.Count>0)
             {
-                foreach (string word in wordBank)
+                foreach (string word in testWordBank)
                 { 
                     filecontents.Add(word);                
                 }
                 contents.RemoveAt(3);
                 contents.Insert(3, true);
             }
-            string input = Microsoft.VisualBasic.Interaction.InputBox("Please enter a an encryption key for this test, anything will work within 8 characters.", "Title", "Apple", -1, -1);
-            string testName = Microsoft.VisualBasic.Interaction.InputBox("What would you like to name this test?", "Test Name", "EnglishExamination1", -1, -1);
+            //string input = Microsoft.VisualBasic.Interaction.InputBox("Please enter a an encryption key for this test, anything will work within 8 characters.", "Title", "Apple", -1, -1);
+            //string testName = Microsoft.VisualBasic.Interaction.InputBox("What would you like to name this test?", "Test Name", "EnglishExamination1", -1, -1);
             //Microsoft.Win32.SaveFileDialog saver = new Microsoft.Win32.SaveFileDialog();
             //Nullable<bool> result = saver.ShowDialog();
             //if (result == true)
             //{
+            
                 string path = Directory.GetCurrentDirectory();
-                
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path+testName+ ".tySon"))
+                System.Windows.Forms.MessageBox.Show(path);
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path+testName.Text+ ".tySon"))
                 {
                     foreach (bool content in contents)
                     {
@@ -636,7 +670,7 @@ namespace basicGUI
                     }
                     wordBank = temporaryWordBank;
                 }
-                testKey = lines[lines.Length - 1];
+                
                 
                 Update();
 
@@ -694,8 +728,9 @@ namespace basicGUI
 
             if (currfile == null)
             {
-                string outfileLocation = Microsoft.VisualBasic.Interaction.InputBox("Please provide a fileName to export to. (No extenstions just a name please)", "Title", "Apple", -1, -1);
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile + ".tySon", false))
+                string outfileLocation = Microsoft.VisualBasic.Interaction.InputBox("Please provide a fileName to export to. (No extenstions just a name please)", "Title", "ExampleName", -1, -1);
+                outfileLocation = outfileLocation + ".tySon";
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(outfileLocation, false))
                 {
                     outputFile.WriteLine(results);
                 }
@@ -704,6 +739,8 @@ namespace basicGUI
             }
             else
             {
+                currfile = currfile.Replace(".txt", ".tySon");
+                System.Windows.Forms.MessageBox.Show(currfile);
                 using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile, false))
                 {
                     outputFile.WriteLine(results);
@@ -713,7 +750,72 @@ namespace basicGUI
             
         }
 
-        
+        private void decryptFile(object sender, RoutedEventArgs e)
+        {
+            String fileText = null;
+            Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog1.Filter = "Tyson (.tySon)|*.tySon|All Files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = false;
+            bool? userClickedOK = openFileDialog1.ShowDialog();
+            if (userClickedOK == true)
+            {
+                // Open the selected file to read.
+
+                CurrFileName.Text = openFileDialog1.SafeFileName;
+
+                fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
+                currfile = openFileDialog1.FileName;
+                filePosition.Text = "N/A";
+                
+
+            }
+
+            byte[] keyArray;
+            //get the byte code of the string
+            if (fileText == null)
+            {
+                return;
+            }
+            byte[] toEncryptArray = Convert.FromBase64String(fileText);
+
+
+            //Get your key from config file to open the lock!
+            string key = Key.Text;
+
+
+            MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
+            keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+            hashmd5.Clear();
+
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+            tdes.Key = keyArray;
+
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform cTransform = tdes.CreateDecryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(
+                                 toEncryptArray, 0, toEncryptArray.Length);
+            tdes.Clear();
+            Content.Text = UTF8Encoding.UTF8.GetString(resultArray);
+            Update();
+            
+
+
+        }
+
+        private void switchTestForm(object sender, RoutedEventArgs e)
+        {
+            main_Display.Visibility = System.Windows.Visibility.Collapsed;
+            testForms.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void switchEval(object sender, RoutedEventArgs e)
+        {
+            main_Display.Visibility = System.Windows.Visibility.Visible;
+            testForms.Visibility = System.Windows.Visibility.Collapsed;
+        }
 
         
 

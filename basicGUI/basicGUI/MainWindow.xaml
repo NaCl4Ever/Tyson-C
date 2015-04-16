@@ -3,43 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Project Tyson" 
         Icon="TysonIcon.ico" Deactivated="Window_Deactivated" ResizeMode="NoResize" WindowState="Maximized" WindowStartupLocation="CenterScreen" Width="1675" >
-    <Grid Margin="0,0,15,16">
+    <Grid Margin="0,0,15,16" HorizontalAlignment="Right" Width="1654">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="333*"/>
-            <ColumnDefinition Width="578*"/>
+            <ColumnDefinition Width="605*"/>
+            <ColumnDefinition Width="34*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="1015*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="Content" HorizontalAlignment="Left" Height="318" Margin="128,126,0,0" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="406" Grid.Column="1" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33"/>
-        <TextBlock x:Name="WordCountLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Word Count" VerticalAlignment="Top" Margin="16,60,0,0" Height="24" Width="83"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sentences" VerticalAlignment="Top" Margin="16,84,0,0" Height="24" Width="83"/>
-        <TextBox x:Name="WordCount" HorizontalAlignment="Left" Height="23" Margin="104,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <TextBox x:Name="Sentences" HorizontalAlignment="Left" Height="23" Margin="105,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <TextBox x:Name="UniqueCount" HorizontalAlignment="Left" Height="23" Margin="105,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <TextBox x:Name="FrequencyWord" HorizontalAlignment="Left" Height="23" Margin="105,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Frequeny of:" Margin="16,155,0,250" Width="79"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Unique Words" VerticalAlignment="Top" Margin="20,117,0,0" Height="38" Width="83"/>
-        <TextBox x:Name="FrequencyOfWord" HorizontalAlignment="Left" Height="23" Margin="105,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" TextChanged="FrequencyOfWord_TextChanged" />
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Is:" VerticalAlignment="Top" Margin="16,180,0,0" Height="23" Width="79" TextAlignment="Center"/>
-        <TextBox x:Name="timeOfTest" HorizontalAlignment="Left" Height="36" Margin="110,286,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" TextChanged="FrequencyOfWord_TextChanged" />
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="In Minutes" VerticalAlignment="Top" Margin="172,288,0,0" Height="23" Width="79" TextAlignment="Center"/>
-        <RichTextBox x:Name="richBox" HorizontalAlignment="Left" Height="61" Margin="61,220,0,0" VerticalAlignment="Top" Width="123">
-            <FlowDocument/>
-        </RichTextBox>
-        <DockPanel HorizontalAlignment="Left" Height="24" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" Width="1042" Grid.ColumnSpan="2">
+        <DockPanel HorizontalAlignment="Left" Height="24" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" Width="1042" Grid.ColumnSpan="4">
             <Menu x:Name="FileMenu" Width="65" Height="24" VerticalAlignment="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Load Single File" Click="loadFile" ToolTip="Loads a single text file "/>
-                    <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Load Folder" Click="batchLoad" Height="27" ToolTip="Loads an entire directory will only load text files"/>
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Save" Click="exporttoFile" ToolTip="Exports file in plaintext readable in any text reader"/>
+                    <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Encrypt Save" Click="encryptExport" ToolTip="Exports file securely"/>
+                    <MenuItem Header="Load Encrypt" Click="decryptFile" ToolTip="Decrypt File"/>
+                    <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Exit" Click="shutDown"/>
                 </MenuItem>
             </Menu>
             <Menu Width="65">
                 <MenuItem x:Name="EditMenu" Header="Edit" Width="70">
                     <MenuItem Header="Refresh Forms" Checked="Button_Click" ToolTip="Refreshses all of the forms with current scores"/>
-                    <MenuItem Header="Create New Test" ToolTip="Creates a new test using a form" Click="exportTest"/>
+                    <MenuItem Header="Switch To Test Creation" ToolTip="Creates a new test using a form" Click="switchTestForm" />
+                    <MenuItem Header="Switch To Evaluation" ToolTip="Reverts to evaluation mode to examine papers" Click="switchEval" />
                     <MenuItem Header="Load Test" ToolTip="Loads a test template" Click="loadTest"/>
                     <MenuItem Header="Complete Current Batch" Click="completeCurrentBatch" ToolTip="This will grade the current directory of papers against the current test you have selected"/>
                     <MenuItem x:Name="testMode" Header="Test Mode" IsCheckable="True" Click="switchTestMode"/>
@@ -47,39 +36,70 @@
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>
         </DockPanel>
-        <WrapPanel Grid.Column="1" HorizontalAlignment="Left" Height="50" Margin="130,70,0,0" VerticalAlignment="Top" Width="433" RenderTransformOrigin="0.5,0.5">
-            <WrapPanel.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="-0.345"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="-0.494"/>
-                </TransformGroup>
-            </WrapPanel.RenderTransform>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="FileName: " VerticalAlignment="Top" Height="24" Width="68"/>
-            <TextBlock x:Name="CurrFileName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="91"><Run Text=" NoneSelected"/><LineBreak/><Run/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Height="24" Width="73"/>
-            <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Height="24" Width="82" RenderTransformOrigin="0.756,0.362"/>
-            <Button x:Name="previousFileBtn" Content="Previous" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile"/>
-            <Button x:Name="nextFileBtn" Content="Next " HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile"/>
+        <WrapPanel x:Name="main_Display" HorizontalAlignment="Left" Height="452" Margin="57,38,0,0" VerticalAlignment="Top" Width="1162" Grid.ColumnSpan="4">
+            <TextBlock x:Name="WordCountLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Word Count" VerticalAlignment="Top" Height="24" Width="83"/>
+            <TextBox x:Name="WordCount" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sentences" VerticalAlignment="Top" Height="24" Width="83"/>
+            <TextBox x:Name="Sentences" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="83"><Run Text="Unique W"/><Run Text="ords"/></TextBlock>
+            <TextBox x:Name="UniqueCount" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
+            <CheckBox x:Name="criteriaMet" Content="All Criteria Met" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153"/>
+            <TextBlock x:Name="WordCountLabel_Copy" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Minimum Sentences" VerticalAlignment="Top" Height="40" Width="110"/>
+            <TextBox x:Name="minSentences" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
+            <TextBlock x:Name="WordCountLabel_Copy1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Minimum Words for Sentence" VerticalAlignment="Top" Height="40" Width="110"/>
+            <TextBox x:Name="minWords" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
+            <Button x:Name="butt" Content="Start Timer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Height="36" Click="startTimer"/>
+            <TextBox x:Name="timeOfTest" HorizontalAlignment="Left" Height="36" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" TextChanged="FrequencyOfWord_TextChanged" />
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="In Minutes" VerticalAlignment="Top" Height="23" Width="79" TextAlignment="Center" Visibility="Hidden"/>
+            <Button Content="Start Timer&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" ToolTip="This will output the data into a seperate file for printing and records" Click="decryptFile" Visibility="Hidden"/>
+            <TextBox x:Name="Key" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="Key" Visibility="Hidden" />
+            <TextBox x:Name="outputName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="File Name" Visibility="Hidden" />
+            <WrapPanel HorizontalAlignment="Left" Height="225" VerticalAlignment="Top" Width="219">
+                <TextBlock x:Name="bankLabel" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="153"><Run Text="Word Bank Entry"/><LineBreak/><Run/></TextBlock>
+                <TextBox x:Name="wordBank_Entry" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Text="Enter a new word here" />
+                <Button x:Name="wordBankEntry_" Content="Add&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="submitWord" Height="20"/>
+                <CheckBox x:Name="wordBankCheck" Content="All Words Used" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153"/>
+                <ListBox x:Name="wordBankListBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="153"/>
+                <Button x:Name="selectedRemove" Content="Remove&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="removeSelected" Height="20"/>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Left" Height="186" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.5,0.5">
+                <WrapPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.345"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.494"/>
+                    </TransformGroup>
+                </WrapPanel.RenderTransform>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="FileName: " VerticalAlignment="Top" Height="24" Width="68"/>
+                <TextBlock x:Name="CurrFileName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="91"><Run Text=" NoneSelected"/><LineBreak/><Run/></TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Height="24" Width="73"/>
+                <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Height="24" Width="82" RenderTransformOrigin="0.756,0.362"/>
+                <Button x:Name="previousFileBtn" Content="Previous" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile"/>
+                <Button x:Name="nextFileBtn" Content="Next " HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile"/>
+            </WrapPanel>
+            <TextBox x:Name="Content" HorizontalAlignment="Left" Height="318" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="266" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33"/>
+            <WrapPanel Height="229" Width="645"/>
         </WrapPanel>
-        <TextBox x:Name="minSentences" HorizontalAlignment="Left" Height="23" Margin="381,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <TextBlock x:Name="WordCountLabel_Copy" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Minimum Sentences" VerticalAlignment="Top" Margin="257,59,0,0" Height="40" Width="110"/>
-        <CheckBox x:Name="criteriaMet" Content="All Criteria Met" HorizontalAlignment="Left" Margin="257,39,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="153"/>
-        <WrapPanel HorizontalAlignment="Left" Height="225" Margin="257,220,0,0" VerticalAlignment="Top" Width="219" Grid.ColumnSpan="2">
-            <TextBlock x:Name="bankLabel" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="153"><Run Text="Word Bank Entry"/><LineBreak/><Run/></TextBlock>
-            <TextBox x:Name="wordBank_Entry" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Text="Enter a new word here" />
-            <Button x:Name="wordBankEntry_" Content="Add&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="submitWord" Height="20"/>
-            <CheckBox x:Name="wordBankCheck" Content="All Words Used" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153"/>
-            <ListBox x:Name="wordBankListBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="153"/>
-            <Button x:Name="selectedRemove" Content="Remove&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="removeSelected" Height="20"/>
+        <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="331,66,0,0" VerticalAlignment="Top" Width="274" Visibility="Collapsed">
+            <Label Content="Test Name: "/>
+            <TextBox x:Name="testName" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
+            <Label Content="Min Sent: "/>
+            <TextBox x:Name="minSentTest" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
+            <Label Content="Min Words: "/>
+            <TextBox x:Name="minWordsTest" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
+            <Label Content="Time: "/>
+            <TextBox x:Name="testDuration" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
+            <WrapPanel HorizontalAlignment="Center" Height="225" VerticalAlignment="Top" Width="180" Margin="0">
+                <TextBlock  TextWrapping="Wrap" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="153"><Run Text="Word Bank Entry"/><LineBreak/><Run/></TextBlock>
+                <TextBox x:Name="testWordEntry" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Text="Enter a new word here" />
+                <Button  Content="Add&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="submitWord" Height="20"/>
+                <Button  Content="Remove&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="removeSelectedTest" Height="20"/>
+                <ListBox x:Name="testWordBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="153"/>
+
+            </WrapPanel>
+            <Button Content="Save Test" Width="75" Height="31" Click="exportTest"/>
         </WrapPanel>
-        <TextBlock x:Name="WordCountLabel_Copy1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Minimum Words for Sentence" VerticalAlignment="Top" Margin="257,95,0,0" Height="40" Width="110"/>
-        <TextBox x:Name="minWords" HorizontalAlignment="Left" Height="23" Margin="381,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" />
-        <Button Content="Start Timer&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="24,381,0,0" ToolTip="This will output the data into a seperate file for printing and records" Click="encryptExport"/>
-        <TextBox x:Name="Key" HorizontalAlignment="Left" Height="23" Margin="127,371,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="Key" />
-        <TextBox x:Name="outputName" HorizontalAlignment="Left" Height="23" Margin="127,410,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="File Name" />
-        <Button x:Name="butt" Content="Start Timer" HorizontalAlignment="Left" Margin="20,286,0,0" VerticalAlignment="Top" Width="75" Height="36" Click="startTimer"/>
 
     </Grid>
 </Window>
