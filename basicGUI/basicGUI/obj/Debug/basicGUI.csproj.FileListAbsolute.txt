@@ -82,3 +82,6 @@ V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI_MarkupCompile.cache
 V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.g.resources
 V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.Properties.Resources.resources
 V:\Tyson\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.csproj.GenerateResource.Cache
+F:\Users\Jordan\Documents\Projects\Tyson-C-\basicGUI\basicGUI\bin\Debug\basicGUI.exe.config
+F:\Users\Jordan\Documents\Projects\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.exe
+F:\Users\Jordan\Documents\Projects\Tyson-C-\basicGUI\basicGUI\obj\Debug\basicGUI.pdb

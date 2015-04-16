@@ -7,6 +7,15 @@
         <TextBox x:Name="textContent" HorizontalAlignment="Left" Height="169" Margin="175,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="178" SpellCheck.IsEnabled="True"/>
         <Button Content="Encrpyt" HorizontalAlignment="Left" Margin="48,103,0,0" VerticalAlignment="Top" Width="75" Click="encrypt"/>
         <Button Content="decrypt" HorizontalAlignment="Left" Margin="48,170,0,0" VerticalAlignment="Top" Width="75" Click="decrypt"/>
+        <Menu Height="21" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Test"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+            </MenuItem>
+            <MenuItem Header="Help">
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </Window>
