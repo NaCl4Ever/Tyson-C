@@ -4,12 +4,20 @@
 winexe
 C#
 .cs
+<<<<<<< HEAD
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\
+=======
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\
+>>>>>>> 06b10fe6794d1983684b3942f0d55cb1afd78e3c
 WpfApplication1
 none
 false
 DEBUG;TRACE
+<<<<<<< HEAD
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\App.xaml
+=======
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\App.xaml
+>>>>>>> 06b10fe6794d1983684b3942f0d55cb1afd78e3c
 11151548125
 
 5-2017746502

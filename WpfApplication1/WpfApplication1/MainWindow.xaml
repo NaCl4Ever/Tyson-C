@@ -3,19 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button Content="Begin Timer" HorizontalAlignment="Left" Margin="48,38,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <TextBox x:Name="textContent" HorizontalAlignment="Left" Height="169" Margin="175,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="178" SpellCheck.IsEnabled="True"/>
-        <Button Content="Encrpyt" HorizontalAlignment="Left" Margin="48,103,0,0" VerticalAlignment="Top" Width="75" Click="encrypt"/>
-        <Button Content="decrypt" HorizontalAlignment="Left" Margin="48,170,0,0" VerticalAlignment="Top" Width="75" Click="decrypt"/>
-        <Menu Height="21" VerticalAlignment="Top">
+
+        <TextBox x:Name="textContent" HorizontalAlignment="Left" Height="169" Margin="166,139,0,0" TextWrapping="Wrap" Text="Being typing your essay here." VerticalAlignment="Top" Width="317" SpellCheck.IsEnabled="True"/>
+        <DockPanel Height="33" LastChildFill="False" VerticalAlignment="Bottom" RenderTransformOrigin="0.507,-0.293" Margin="0,0,0,286"/>
+        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="517">
             <MenuItem Header="File">
-                <MenuItem Header="Test"/>
+                <MenuItem Header="Load Single File" Click="Button_Click" ToolTip="Loads a single text file "/>
+                <MenuItem Header="Load Test"  ToolTip="Loads a single text file " Click="loadTest"/>
+                <MenuItem Header="Start Test"  ToolTip="Loads a single text file " Click="testBegin" />
             </MenuItem>
             <MenuItem Header="Edit">
+                <MenuItem Header="Decrypt Current" Click="decrypt" ToolTip="Decrypts the current file"/>
             </MenuItem>
-            <MenuItem Header="Help">
-            </MenuItem>
+            <MenuItem Header="Help"/>
         </Menu>
+        <Label Content="Currently Working On:" HorizontalAlignment="Left" Margin="166,30,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="currentProject" Content="Nothing" HorizontalAlignment="Left" Margin="300,30,0,0" VerticalAlignment="Top" Width="148"/>
+
+        <WrapPanel HorizontalAlignment="Left" Height="100" Margin="23,56,0,0" VerticalAlignment="Top" Width="121">
+
+            <Label x:Name="mode" Content="Mode: Not Selected" Width="121"/>
+            <Label x:Name="sentences" Content="" Width="121"/>
+            <Label x:Name="words" Content="" Width="121"/>
+            <Label x:Name="time" Content="" Width="121"/>
+
+        </WrapPanel>
+        <TextBox x:Name="muID" HorizontalAlignment="Left" Height="26" Margin="300,61,0,0" TextWrapping="Wrap" Text="Enter id(901-xxx-xxxx) " VerticalAlignment="Top" Width="138" SpellCheck.IsEnabled="True"/>
+        <Label Content="Marshall ID:" HorizontalAlignment="Left" Margin="166,61,0,0" VerticalAlignment="Top"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="166,92,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="studentName" HorizontalAlignment="Left" Height="19" Margin="300,96,0,0" TextWrapping="Wrap" Text="First Name only" VerticalAlignment="Top" Width="138" SpellCheck.IsEnabled="True"/>
+
+
 
     </Grid>
 </Window>

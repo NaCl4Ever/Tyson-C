@@ -1,7 +1,10 @@
-This is a sample text we are going to be working with. 
+This is a sample file fo sho
+
+
 -:Tyson Results:-
 ----------------------------------------------------
-Total Sentences: 1
-Word Count: 13
-Unique Words: 13
-File up to date as of: 3/17/2015
+Total Sentences: 0
+Word Count: 7
+Unique Words: 7
+Paper Does not pass the Criteria
+File up to date as of: 4/15/2015

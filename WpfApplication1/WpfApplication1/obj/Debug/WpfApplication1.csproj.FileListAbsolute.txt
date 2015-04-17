@@ -14,6 +14,7 @@ c:\users\pectyo\documents\visual studio 2013\Projects\WpfApplication1\WpfApplica
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe.config
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.exe
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.pdb
+<<<<<<< HEAD
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.pdb
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.csprojResolveAssemblyReference.cache
@@ -24,3 +25,18 @@ F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.g.resources
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.Properties.Resources.resources
 F:\Users\Jordan\Documents\Projects\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.csproj.GenerateResource.Cache
+=======
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe.config
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.exe
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.pdb
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.pdb
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.csprojResolveAssemblyReference.cache
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\MainWindow.baml
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\MainWindow.g.cs
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\App.g.cs
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1_MarkupCompile.cache
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.g.resources
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.Properties.Resources.resources
+V:\Tyson\Tyson-C-\WpfApplication1\WpfApplication1\obj\Debug\WpfApplication1.csproj.GenerateResource.Cache
+>>>>>>> 06b10fe6794d1983684b3942f0d55cb1afd78e3c
