@@ -250,7 +250,9 @@ namespace WpfApplication1
                 }
 
 
-                currentProject.Content = openFileDialog1.SafeFileName;
+                
+                testName = openFileDialog1.SafeFileName.Replace(".tySon", "");
+                currentProject.Content = testName;
             }
         }
 

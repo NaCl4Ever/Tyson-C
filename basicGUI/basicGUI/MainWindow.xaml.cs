@@ -35,6 +35,7 @@ namespace basicGUI
     public partial class MainWindow : Window
     {
         List<string> currFileList = new List<string>(0);
+        List<string> sentences = new List<string>(0);
         string currfile = null;
         List<string> wordBank = new List<string>(0);
         List<string> testWordBank = new List<string>(0);
@@ -44,7 +45,9 @@ namespace basicGUI
         Boolean paperPass = false;
         Boolean testModeIsEnabled = false;
         static System.Timers.Timer myTimer;
-        
+        List<string> temporaryBank = new List<string>(0);
+        List<string> printedBank = new List<string>(0);
+        List<System.Windows.Documents.List> containerWordBanks = new List<System.Windows.Documents.List>(0);
         public MainWindow()
         {
             InitializeComponent();
@@ -69,16 +72,29 @@ namespace basicGUI
             //Content.IsReadOnly = false;
             
             string Essay = Content.Text;
-            System.Windows.Forms.MessageBox.Show("Here we go!");
-            wordCount(Essay);
-            WordCount.Text = (currentWordCount.ToString());
-            UniqueCount.Text = (UniqueWords(Essay).ToString());
-            getSentences(Essay);
-            Sentences.Text = (currentSentCount.ToString());
+            //getSentences(Content.Text);
+            generateSentenceList();
+            printedBank.Clear();
+            foreach(string targetWord in temporaryBank){
+                foreach (string returnedSent in sentenceReturn(targetWord, sentences))
+                {
+                    if (!printedBank.Contains(returnedSent))
+                    { printedBank.Add(returnedSent); }
+                
+                }
+
+            }
+            loadedBank.ItemsSource = printedBank;
+            loadedBank.Items.Refresh();
+            
+            //wordCount(Essay);
+            
+            //getSentences(Essay);
+            
 
             //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
-            updateListBox();
-            checkCriteria();
+            //updateListBox();
+            //checkCriteria();
             
             
         }
@@ -86,15 +102,13 @@ namespace basicGUI
         {
 
             string Essay = Content.Text;
-            wordCount(Essay);
-            WordCount.Text = (currentWordCount.ToString());
-            UniqueCount.Text = (UniqueWords(Essay).ToString());
-            getSentences(Essay);
-            Sentences.Text = (currentSentCount.ToString());
+            //wordCount(Essay);
+            //getSentences(Essay);
+            
 
             //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
-            updateListBox();
-            checkCriteria();
+            //updateListBox();
+            //checkCriteria();
         }
         private void wordCount(string inTextBlock)
         {
@@ -119,48 +133,36 @@ namespace basicGUI
         private void getSentences(string inTextBlock)
         {
             string[] characters = inTextBlock.Split(' ');
-            string[] endPoints = new string[3]{".","!","?"};
+            
             int increment = 0;
             int startCut = 0;
-            
+
             inTextBlock = inTextBlock.Trim();
             for (int begin = 0; begin <= inTextBlock.Length; begin++)
             {
 
                 if (inTextBlock.Substring(startCut, begin - startCut).Contains(".") || inTextBlock.Substring(startCut, begin - startCut).Contains("?") || inTextBlock.Substring(startCut, begin - startCut).Contains("!"))
                 {
-                    
-                    if(minWords.Text==""){
-                        increment++;
-                    }
-                    else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
-                    {
-                       increment++;
-                    }
+
+                    //if (minWords.Text == "")
+                    //{
+                    //    increment++;
+                    //}
+                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
+                    //{
+                    //    increment++;
+                    //}
+                    increment++;
                     startCut = begin;
                 }
-            
-            
-            
+
+
+
             }
 
 
 
-                //foreach (string character in characters)
-                //{
-                //    for (int i = 0; i < endPoints.Length; i++)
-                //    {
 
-                //        if (character.Contains(endPoints[i]) && character.Length > 1)
-                //        {
-
-                //            increment++;
-
-
-                //        }
-
-                //    }
-                //}
             currentSentCount = increment;
         }
         private int UniqueWords(string inTextBlock)
@@ -184,6 +186,68 @@ namespace basicGUI
             
             }
             return dictionary.Count;
+        }
+        private List<string> sentenceReturn(string targetWord, List<string> searchList)
+        {
+            int currentIndexWord = 0;
+            int lastIndex = 1;
+            Boolean isMore = true;
+            List<string> returnList = new List<string>(0);
+            while(isMore == true)
+            {
+                if (searchList.Contains(targetWord) && lastIndex !=  currentIndexWord)
+                {
+
+                    currentIndexWord = searchList.IndexOf(targetWord, currentIndexWord);
+                    returnList.Add(searchList[currentIndexWord]);
+                }
+                else {
+                    isMore = false;
+                }
+
+
+
+
+            }
+            
+            return returnList;
+        }
+        private void generateSentenceList()
+        {
+            sentences.Clear();
+            string[] characters = Content.Text.Split(' ');
+
+            int startCut = 0;
+
+            string contentBlock = Content.Text.Trim();
+            for (int begin = 0; begin <= contentBlock.Length; begin++)
+            {
+
+                if (contentBlock.Substring(startCut, begin - startCut).Contains(".") || contentBlock.Substring(startCut, begin - startCut).Contains("?") || contentBlock.Substring(startCut, begin - startCut).Contains("!"))
+                {
+
+                    //if (minWords.Text == "")
+                    //{
+                    //    increment++;
+                    //}
+                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
+                    //{
+                    //    increment++;
+                    //}
+                    sentences.Add(contentBlock.Substring(startCut, begin - startCut));
+                    startCut = begin;
+                }
+
+
+
+            }
+        
+        
+        }
+        private void setMode(string currentMode)
+        {   
+            Action act = () => { modeLabel.Content = currentMode; };
+            Content.Dispatcher.Invoke(act);
         }
         private void loadFile(object sender, RoutedEventArgs e)
         {
@@ -214,7 +278,8 @@ namespace basicGUI
                 Content.Text = fileText;
                 filePosition.Text = "N/A";
                 Update();
-                
+                setMode("Single Evaluation");
+                currFileList.Clear();
             }
         }
         public int frequencyOf(string targetWord, string textToView)
@@ -236,7 +301,7 @@ namespace basicGUI
             if (myDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string folderPath = myDialog.SelectedPath;
-                
+                setMode("Batch Evaluation");
                 
 
                 string[] fileArray = Directory.EnumerateFiles(folderPath, "*.txt").ToArray();
@@ -278,20 +343,10 @@ namespace basicGUI
         }
         private void previousFile(object sender, RoutedEventArgs e)
         {
-            if (currFileList.Count == 0)
+            if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) <= 0)
             {
                 
-            }
-            else if (currfile == null)
-            {
-                
-
-                
-            }
-            else if (currFileList.IndexOf(currfile) <= 0)
-            {
-                
-            }
+            } 
             else
             {
                 int index = currFileList.IndexOf(currfile) - 1 ;
@@ -304,7 +359,7 @@ namespace basicGUI
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
                     fileContents = fileContents.Substring(0, endPoint);}
                 
-                filePosition.Text =  (index+1).ToString() + " out of " + (currFileList.Count-1).ToString();
+                filePosition.Text =  (index+1).ToString() + " out of " + (currFileList.Count).ToString();
                 Content.Text = fileContents;
                 Update();
             }
@@ -312,20 +367,11 @@ namespace basicGUI
         }        
         private void nextFile(object sender, RoutedEventArgs e)
         {
-            if (currFileList.Count == 0)
+            if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) + 1 > currFileList.Count - 1)
             {
                 
-            }
-            else if (currfile == null)
-            {
-
-
-                
-            }
-            else if (currFileList.IndexOf(currfile)+1 >= currFileList.Count-1)
-            {
-                
-            }
+            }          
+            
             else
             {
                 int index = currFileList.IndexOf(currfile) + 1;
@@ -338,7 +384,7 @@ namespace basicGUI
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
                     fileContents = fileContents.Substring(0, endPoint);}
                 
-                filePosition.Text = (index+1).ToString() + " out of " + (currFileList.Count-1).ToString();
+                filePosition.Text = (index+1).ToString() + " out of " + (currFileList.Count).ToString();
                 Content.Text = fileContents;
                 Update();
             }
@@ -367,31 +413,31 @@ namespace basicGUI
             }
         }
 
-        private void checkCriteria() {
+        //private void checkCriteria() {
             
-            if (minSentences.Text.Equals("") && currentSentCount > 0)
-            {
-                paperPass = true;
-                criteriaMet.IsChecked = true;
-            }
-            else if(currentSentCount==0 && minSentences.Text.Equals(""))
-            {
-                paperPass = false;
-                criteriaMet.IsChecked = false;
-                return;
-            }
-            else if (currentSentCount >= Convert.ToInt32(minSentences.Text))
-            {
-                paperPass = true;
-                criteriaMet.IsChecked = true;
-            }
-            else {
-                paperPass = false;
-                criteriaMet.IsChecked = false;
-            }
+        //    if (minSentences.Text.Equals("") && currentSentCount > 0)
+        //    {
+        //        paperPass = true;
+        //        criteriaMet.IsChecked = true;
+        //    }
+        //    else if(currentSentCount==0 && minSentences.Text.Equals(""))
+        //    {
+        //        paperPass = false;
+        //        criteriaMet.IsChecked = false;
+        //        return;
+        //    }
+        //    else if (currentSentCount >= Convert.ToInt32(minSentences.Text))
+        //    {
+        //        paperPass = true;
+        //        criteriaMet.IsChecked = true;
+        //    }
+        //    else {
+        //        paperPass = false;
+        //        criteriaMet.IsChecked = false;
+        //    }
         
         
-        }
+        //}
         private void exporttoFile(object sender, RoutedEventArgs e)
         {
 
@@ -421,18 +467,7 @@ namespace basicGUI
             
             
         }
-        private void startTimer(object sender, RoutedEventArgs e)
-        {
-            if(timeOfTest.Text!=null){
-
-                    
-            Content.IsReadOnly = false;
-            myTimer = new System.Timers.Timer(Int32.Parse(timeOfTest.Text) * 1000 * 60);
-            myTimer.Enabled = true;            
-            myTimer.Elapsed += new ElapsedEventHandler(timerElapsed);
-            
-            }
-        }
+        
 
         private void FrequencyOfWord_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -449,23 +484,8 @@ namespace basicGUI
 
         private void submitWord(object sender, RoutedEventArgs e)
         {
-            if (!wordBank.Contains(wordBank_Entry.Text) && main_Display.IsVisible)
-            {
-
-                wordBank.Add(wordBank_Entry.Text);
-                updateListBox();
-
-            }
-            else if(!testWordBank.Contains(testWordEntry.Text))
-            {
-
                 testWordBank.Add(testWordEntry.Text);
                 updateListBoxTest();
-            }
-            
-            
-            
-            
         }
         private Boolean wordBankEval()
         {
@@ -494,41 +514,14 @@ namespace basicGUI
             else
                 return false;
         }
-        private void updateListBox()
-        {
-            wordBankListBox.ItemsSource = wordBank;
-            wordBankListBox.Items.Refresh();
-            if (wordBankEval() == true)
-            {
-                wordBankCheck.IsChecked = true;
-
-            }
-            else {
-                wordBankCheck.IsChecked = false;
-            }
-            
-            
-            
         
-        
-        
-        }
 
         private void updateListBoxTest()
         {
             testWordBox.ItemsSource = testWordBank;
             testWordBox.Items.Refresh();
         }
-        private void removeSelected(object sender, RoutedEventArgs e)
-        {
-            if (wordBankListBox.SelectedItem != null)
-            {
-                string selectedItem = wordBankListBox.SelectedItem.ToString();
-                wordBank.Remove(selectedItem);
-                updateListBox();
-                
-            }
-        }
+        
 
         private void removeSelectedTest(object sender, RoutedEventArgs e)
         {
@@ -646,17 +639,17 @@ namespace basicGUI
                 
                 if (contentA[0] == true)
                 {
-                    minSentences.Text = lines[currPointer];
+                    //minSentences.Text = lines[currPointer];
                     currPointer++;
                     
                 }
                 if (contentA[1] == true)
                 {
-                    minWords.Text = lines[currPointer];
+                    //minWords.Text = lines[currPointer];
                     currPointer++;}
                 if (contentA[2] == true)
                 {
-                    timeOfTest.Text = lines[currPointer];
+                    //timeOfTest.Text = lines[currPointer];
                         currPointer++;
                 
                 }
@@ -815,6 +808,36 @@ namespace basicGUI
         {
             main_Display.Visibility = System.Windows.Visibility.Visible;
             testForms.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void loadBank(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog1.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = false;
+            bool? userClickedOK = openFileDialog1.ShowDialog();
+            if (userClickedOK == true)
+            {
+                // Open the selected file to read.
+                wordBankSection.Visibility = System.Windows.Visibility.Visible;
+                temporaryBank.Clear();
+                temporaryBank.Add(openFileDialog1.SafeFileName);
+                String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
+                
+                if (fileText.Contains("-:Tyson Results:-"))
+                {
+                    int endPoint = fileText.IndexOf("-:Tyson Results:-");
+                    fileText = fileText.Substring(0, endPoint); 
+                }
+                List<string> words = fileText.Split(',').ToList();
+                foreach (string word in words)
+                {
+                    temporaryBank.Add(word);
+                }
+
+        
+          }
         }
 
         
