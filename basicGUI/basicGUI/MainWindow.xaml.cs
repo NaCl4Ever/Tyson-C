@@ -56,11 +56,12 @@ namespace basicGUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Update();
+            
         }
         private void Content_TextChanged(object sender, TextChangedEventArgs e)
         {
             try{
-                Update2();
+                Update();
             }
                 catch(NullReferenceException ex){
                    
@@ -76,8 +77,11 @@ namespace basicGUI
             generateSentenceList();
             printedBank.Clear();
             foreach(string targetWord in temporaryBank){
+
+                
                 foreach (string returnedSent in sentenceReturn(targetWord, sentences))
                 {
+                    System.Windows.Forms.MessageBox.Show(returnedSent);
                     if (!printedBank.Contains(returnedSent))
                     { printedBank.Add(returnedSent); }
                 
@@ -102,7 +106,7 @@ namespace basicGUI
         {
 
             string Essay = Content.Text;
-            //wordCount(Essay);
+                       //wordCount(Essay);
             //getSentences(Essay);
             
 
@@ -197,8 +201,9 @@ namespace basicGUI
             {
                 if (searchList.Contains(targetWord) && lastIndex !=  currentIndexWord)
                 {
-
+                    lastIndex = searchList.LastIndexOf(targetWord);
                     currentIndexWord = searchList.IndexOf(targetWord, currentIndexWord);
+                   
                     returnList.Add(searchList[currentIndexWord]);
                 }
                 else {
@@ -215,11 +220,13 @@ namespace basicGUI
         private void generateSentenceList()
         {
             sentences.Clear();
-            string[] characters = Content.Text.Split(' ');
+            
 
             int startCut = 0;
-
-            string contentBlock = Content.Text.Trim();
+           
+            
+            string contentBlock = Content.Text.Trim().ToLower();
+            
             for (int begin = 0; begin <= contentBlock.Length; begin++)
             {
 
@@ -824,16 +831,12 @@ namespace basicGUI
                 temporaryBank.Clear();
                 temporaryBank.Add(openFileDialog1.SafeFileName);
                 String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
-                
-                if (fileText.Contains("-:Tyson Results:-"))
-                {
-                    int endPoint = fileText.IndexOf("-:Tyson Results:-");
-                    fileText = fileText.Substring(0, endPoint); 
-                }
                 List<string> words = fileText.Split(',').ToList();
                 foreach (string word in words)
                 {
-                    temporaryBank.Add(word);
+
+                   
+                    temporaryBank.Add(word.ToLower());
                 }
 
         

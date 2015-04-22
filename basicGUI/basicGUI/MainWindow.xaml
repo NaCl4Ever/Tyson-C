@@ -29,7 +29,7 @@
             </Menu>
             <Menu Width="65">
                 <MenuItem x:Name="EditMenu" Header="Edit" Width="70">
-                    <MenuItem Header="Refresh Forms" Checked="Button_Click" ToolTip="Refreshses all of the forms with current scores"/>
+                    <MenuItem Header="Refresh Forms" ToolTip="Refreshses all of the forms with current scores" Click="Button_Click"/>
                     <MenuItem Header="Switch To Test Creation" ToolTip="Creates a new test using a form" Click="switchTestForm" />
                     <MenuItem Header="Switch To Evaluation" ToolTip="Reverts to evaluation mode to examine papers" Click="switchEval" />
                     <MenuItem Header="Load Test" ToolTip="Loads a test template" Click="loadTest"/>
