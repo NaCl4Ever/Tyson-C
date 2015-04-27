@@ -39,12 +39,12 @@
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>
         </DockPanel>
-        <WrapPanel x:Name="main_Display" HorizontalAlignment="Left" Height="416" Margin="10,48,-223,0" VerticalAlignment="Top" Width="866" Grid.Column="3">
+        <WrapPanel x:Name="main_Display" HorizontalAlignment="Left" Height="416" Margin="10,48,0,0" VerticalAlignment="Top" Width="413" Grid.Column="3">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="In Minutes" VerticalAlignment="Top" Height="23" Width="79" TextAlignment="Center" Visibility="Hidden"/>
             <Button Content="Start Timer&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" ToolTip="This will output the data into a seperate file for printing and records" Click="decryptFile" Visibility="Hidden"/>
             <TextBox x:Name="Key" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="Key" Visibility="Hidden" />
             <TextBox x:Name="outputName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="File Name" Visibility="Hidden" />
-            <TextBox x:Name="Content" HorizontalAlignment="Center" Height="340" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="661" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33" Margin="25,0,0,0"/>
+            <TextBox x:Name="Content" HorizontalAlignment="Center" Height="340" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="330" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33" Margin="25,0,0,0"/>
         </WrapPanel>
         <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="331,66,0,0" VerticalAlignment="Top" Width="274" Visibility="Collapsed" Grid.ColumnSpan="4" Grid.RowSpan="2">
             <Label Content="Test Name: "/>
@@ -93,8 +93,8 @@
             <Label x:Name="sentenceLabel" Content="" Width="90"/>
 
         </WrapPanel>
-       
-        <WrapPanel x:Name="wordBankSection" Grid.Column="3" HorizontalAlignment="Left" Height="322" Margin="913,82,-560,0" VerticalAlignment="Top" Width="300">
+
+        <WrapPanel x:Name="wordBankSection" Grid.Column="3" HorizontalAlignment="Left" Height="322" Margin="713,85,-360,0" VerticalAlignment="Top" Width="300">
             <Label Content="Current Word Bank" Height="75" Width="150"/>
             <Label x:Name="nameLoadedBank" Content="Label" Height="75" Width="150"/>
             <Button Content="&lt;" Width="150" Height="30"/>

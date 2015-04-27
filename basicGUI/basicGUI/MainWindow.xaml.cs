@@ -71,17 +71,21 @@ namespace basicGUI
         private void Update()
         {
             //Content.IsReadOnly = false;
-            
+            List<string> sentencesReturned = new List<string>(0);
             string Essay = Content.Text;
             //getSentences(Content.Text);
             generateSentenceList();
             printedBank.Clear();
             foreach(string targetWord in temporaryBank){
 
-                
-                foreach (string returnedSent in sentenceReturn(targetWord, sentences))
+                sentencesReturned = sentenceReturn(targetWord, sentences);
+                if (sentencesReturned.Count == 0)
                 {
-                    System.Windows.Forms.MessageBox.Show(returnedSent);
+                    
+                }
+                foreach (string returnedSent in sentencesReturned)
+                {
+                    
                     if (!printedBank.Contains(returnedSent))
                     { printedBank.Add(returnedSent); }
                 
@@ -90,7 +94,8 @@ namespace basicGUI
             }
             loadedBank.ItemsSource = printedBank;
             loadedBank.Items.Refresh();
-            
+            wordsLabel.Content = UniqueWords(Content.Text);
+            sentenceLabel.Content = currentSentCount.ToString();
             //wordCount(Essay);
             
             //getSentences(Essay);
@@ -193,28 +198,19 @@ namespace basicGUI
         }
         private List<string> sentenceReturn(string targetWord, List<string> searchList)
         {
-            int currentIndexWord = 0;
-            int lastIndex = 1;
-            Boolean isMore = true;
+            //int lastIndex = 0;
+            //int currentIndexWord = 0;            
+            //Boolean isMore = true;
             List<string> returnList = new List<string>(0);
-            while(isMore == true)
+
+            foreach (string currSentence in searchList)
             {
-                if (searchList.Contains(targetWord) && lastIndex !=  currentIndexWord)
-                {
-                    lastIndex = searchList.LastIndexOf(targetWord);
-                    currentIndexWord = searchList.IndexOf(targetWord, currentIndexWord);
-                   
-                    returnList.Add(searchList[currentIndexWord]);
-                }
-                else {
-                    isMore = false;
-                }
-
-
-
-
+                if (currSentence.Contains(targetWord))
+                    {   
+                        returnList.Add(currSentence);
+                    }
+                    
             }
-            
             return returnList;
         }
         private void generateSentenceList()
@@ -829,7 +825,8 @@ namespace basicGUI
                 // Open the selected file to read.
                 wordBankSection.Visibility = System.Windows.Visibility.Visible;
                 temporaryBank.Clear();
-                temporaryBank.Add(openFileDialog1.SafeFileName);
+                nameLoadedBank.Content = openFileDialog1.SafeFileName;
+                
                 String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
                 List<string> words = fileText.Split(',').ToList();
                 foreach (string word in words)
