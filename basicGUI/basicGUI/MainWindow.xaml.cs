@@ -661,7 +661,7 @@ namespace basicGUI
                     List<string> temporaryWordBank = new List<string>(0);
                     for (int index = currPointer; index < lines.Length; index++)
                     {
-                        System.Windows.Forms.MessageBox.Show("Running");
+                        
                         temporaryWordBank.Add(lines[index]);
                     }
                     wordBank = temporaryWordBank;
@@ -838,6 +838,16 @@ namespace basicGUI
 
         
           }
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (testModeIsEnabled == true)
+            {
+                System.Windows.Application.Current.Shutdown();          
+            
+            }
+            
         }
 
         

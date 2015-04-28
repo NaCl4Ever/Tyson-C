@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="basicGUI.MainWindow"
         Title="Project Tyson" 
-        Icon="TysonIcon.ico"   WindowState="Maximized" WindowStartupLocation="CenterScreen" Width="1675" d:DesignHeight="575" SizeToContent="WidthAndHeight" Visibility="Visible" Background="#FF1F801A" >
+        Icon="TysonIcon.ico"   WindowState="Maximized" WindowStartupLocation="CenterScreen" Width="1675" d:DesignHeight="575" SizeToContent="WidthAndHeight" Visibility="Visible" Background="#FF1F801A" StateChanged="Window_StateChanged" >
     <Grid Margin="0,0,0,16" HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="605*"/>
@@ -32,9 +32,9 @@
                     <MenuItem Header="Refresh Forms" ToolTip="Refreshses all of the forms with current scores" Click="Button_Click"/>
                     <MenuItem Header="Switch To Test Creation" ToolTip="Creates a new test using a form" Click="switchTestForm" />
                     <MenuItem Header="Switch To Evaluation" ToolTip="Reverts to evaluation mode to examine papers" Click="switchEval" />
-                    <MenuItem Header="Load Test" ToolTip="Loads a test template" Click="loadTest"/>
+                    <MenuItem Header="Load Test" ToolTip="Loads a test template to use during evaluation" Click="loadTest"/>
                     <MenuItem Header="Complete Current Batch" Click="completeCurrentBatch" ToolTip="This will grade the current directory of papers against the current test you have selected"/>
-                    <MenuItem x:Name="testMode" Header="Test Mode" IsCheckable="True" Click="switchTestMode"/>
+                    
                 </MenuItem>
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>

@@ -27,9 +27,12 @@ namespace WpfApplication1
         static Timer remainingTime; 
         int currTimeAlottment = 0;
         double currRemainTime = 0;
+        Boolean testMode = false;
         int minSents, minWords;
         string testName;
+        string assignmentName; 
         string currEncrypt;
+        string userID = null; 
         List<string> wordBank = new List<string>(0);
         public MainWindow()
         {
@@ -58,8 +61,8 @@ namespace WpfApplication1
             {
                 // Open the selected file to read.
 
-                currentProject.Content = openFileDialog1.SafeFileName.Replace(".txt", "");
-
+                assignmentName = openFileDialog1.SafeFileName.Replace(".tySon", "");
+                currentProject.Content = assignmentName;
                 String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
 
                 textContent.Text = fileText;
@@ -174,7 +177,7 @@ namespace WpfApplication1
             textContent.Dispatcher.Invoke(act);
             byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(myContent);
 
-            string key = "Password";
+            string key = "Marmalade";
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
             hashmd5.Clear();
@@ -303,6 +306,7 @@ namespace WpfApplication1
         }
         private void testBegin(object sender, RoutedEventArgs e)
         {
+            userID = testName + muID.Text.Replace("901", "") + studentName.Text.Replace(" ", ""); 
             if (currTimeAlottment != 0)
             {
                 currRemainTime = currTimeAlottment*60; 
@@ -347,6 +351,7 @@ namespace WpfApplication1
                     fileMenu.IsEnabled = true; 
                     currentDisplay.WindowStyle = System.Windows.WindowStyle.None;
                 };
+                testMode = false;
                 textContent.Dispatcher.Invoke(act);
                 myTimer.Close();
                 remainingTime.Close();
@@ -355,14 +360,15 @@ namespace WpfApplication1
             //Locks system down to test mode
             else if(modeSetting == 1)
             {
-
+                
                 Action act = () =>
                 {
                     currentDisplay.WindowStyle = System.Windows.WindowStyle.None;
                     currentDisplay.WindowState = System.Windows.WindowState.Maximized;
+                    fileMenu.IsEnabled = false;
                 };
                 textContent.Dispatcher.Invoke(act);
-            
+                testMode = true;
             }
 
         
@@ -370,7 +376,89 @@ namespace WpfApplication1
 
         private void changeIt(object sender, RoutedEventArgs e)
         {
+            if (testMode == true)
+            {
+                realEncrypt();
+                string path = Directory.GetCurrentDirectory();
+                if (userID != null)
+                {
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path + "\\" + userID + ".tyTxt", false))
+                    {
+                        outputFile.WriteLine(currEncrypt);
+                    }
+                    
+                }
+                else
+                {
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path + "\\" + "noNameProvided" + ".tyTxt", false))
+                    {
+                        outputFile.WriteLine(currEncrypt);
+                    }
+                    
+
+
+                }
+
+            }
             switchMode(0);
+        }
+
+        private void currentDisplay_StateChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void currentDisplay_Deactivated(object sender, EventArgs e)
+        {
+            if (testMode == true)
+            {
+                realEncrypt();
+                string path = Directory.GetCurrentDirectory();
+                if (userID != null)
+                {
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path + "\\" + userID + ".tyTxt", false))
+                    {
+                        outputFile.WriteLine(currEncrypt);
+                    }
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path + "\\" + "noNameProvided" + ".tyTxt", false))
+                    {
+                        outputFile.WriteLine(currEncrypt);
+                    }
+                    Application.Current.Shutdown();
+                
+                
+                }
+
+            }
+        }
+
+        private void saveAssignment(object sender, RoutedEventArgs e)
+        {
+                
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(assignmentName, false))
+                {
+                    string Essay = Content.Text;
+                    outputFile.WriteLine(Essay);
+                    outputFile.WriteLine("-:Tyson Results:-");
+                    outputFile.WriteLine("----------------------------------------------------");
+                    outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
+                    outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
+                    outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
+                    if (paperPass == true)
+                    {
+                        outputFile.WriteLine("Paper Passes the Criteria");
+                    }
+                    else
+                        outputFile.WriteLine("Paper Does not pass the Criteria");
+                    outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
+
+
+                }
+
         }
 
 
