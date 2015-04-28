@@ -1,0 +1,15 @@
+This is an example text I've been working on. Let's see if i can pass the test. 
+-:Tyson Results:-
+----------------------------------------------------
+Total Sentences: 0
+Word Count: 17
+Unique Words: 18
+Test Requirements 
+Minimum Words: 10
+Minimum Sentences: 5
+Word Bank Provided
+example
+exemplar
+taste
+Test Criteria Met: No
+File up to date as of: 4/28/2015

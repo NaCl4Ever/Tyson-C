@@ -439,25 +439,25 @@ namespace WpfApplication1
         private void saveAssignment(object sender, RoutedEventArgs e)
         {
                 
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(assignmentName, false))
-                {
-                    string Essay = Content.Text;
-                    outputFile.WriteLine(Essay);
-                    outputFile.WriteLine("-:Tyson Results:-");
-                    outputFile.WriteLine("----------------------------------------------------");
-                    outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
-                    outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
-                    outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
-                    if (paperPass == true)
-                    {
-                        outputFile.WriteLine("Paper Passes the Criteria");
-                    }
-                    else
-                        outputFile.WriteLine("Paper Does not pass the Criteria");
-                    outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
+                //using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(assignmentName, false))
+                //{
+                //    string Essay = Content.Text;
+                //    outputFile.WriteLine(Essay);
+                //    outputFile.WriteLine("-:Tyson Results:-");
+                //    outputFile.WriteLine("----------------------------------------------------");
+                //    outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
+                //    outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
+                //    outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
+                //    if (paperPass == true)
+                //    {
+                //        outputFile.WriteLine("Paper Passes the Criteria");
+                //    }
+                //    else
+                //        outputFile.WriteLine("Paper Does not pass the Criteria");
+                //    outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
 
 
-                }
+                //}
 
         }
 

@@ -15,7 +15,8 @@
             <Menu x:Name="FileMenu" Height="24" VerticalAlignment="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Load Single File" Click="loadFile" ToolTip="Loads a single text file "/>
-                    <MenuItem Header="Load Folder" Click="batchLoad" Height="27" ToolTip="Loads an entire directory will only load text files"/>
+                    <MenuItem Header="Load Folder Plain Text" Click="batchLoad" Height="27" ToolTip="Loads an entire directory will only load text files"/>
+                    <MenuItem Header="Load Folder Test Text" Click="testBatchLoad" Height="27" ToolTip="Loads an entire directory will only load tySon files"/>
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Save" Click="exporttoFile" ToolTip="Exports file in plaintext readable in any text reader"/>
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
@@ -34,12 +35,12 @@
                     <MenuItem Header="Switch To Evaluation" ToolTip="Reverts to evaluation mode to examine papers" Click="switchEval" />
                     <MenuItem Header="Load Test" ToolTip="Loads a test template to use during evaluation" Click="loadTest"/>
                     <MenuItem Header="Complete Current Batch" Click="completeCurrentBatch" ToolTip="This will grade the current directory of papers against the current test you have selected"/>
-                    
+
                 </MenuItem>
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>
         </DockPanel>
-        <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="331,66,0,0" VerticalAlignment="Top" Width="274" Visibility="Collapsed" Grid.ColumnSpan="4" Grid.RowSpan="2">
+        <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="596,67,0,0" VerticalAlignment="Top" Width="270" Grid.ColumnSpan="4" Background="#FFF9F2F2" Visibility="Collapsed">
             <Label Content="Test Name: "/>
             <TextBox x:Name="testName" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
             <Label Content="Min Sent: "/>
@@ -53,13 +54,13 @@
                 <TextBox x:Name="testWordEntry" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Text="Enter a new word here" />
                 <Button  Content="Add&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="submitWord" Height="20"/>
                 <Button  Content="Remove&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="removeSelectedTest" Height="20"/>
-                <ListBox x:Name="testWordBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="153"/>
+                <ListBox x:Name="testWordBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="174"/>
 
             </WrapPanel>
             <Button Content="Save Test" Width="75" Height="31" Click="exportTest"/>
         </WrapPanel>
-        <WrapPanel HorizontalAlignment="Left" Height="253" Margin="20,169,0,0" VerticalAlignment="Top" Width="180
-                   ">
+        <WrapPanel HorizontalAlignment="Left" Height="253" Margin="20,228,0,0" VerticalAlignment="Top" Width="180
+                   " Background="#FFFBEFEF">
             <Label Content="Mode:" Width="90"/>
             <Label x:Name="modeLabel" Content="" Width="90"/>
             <Label Content="Test Name:" Width="90"/>
@@ -71,20 +72,20 @@
 
         </WrapPanel>
 
-        <WrapPanel x:Name="wordBankSection" Grid.Column="3" HorizontalAlignment="Left" Height="322" Margin="713,85,-360,0" VerticalAlignment="Top" Width="300">
+        <WrapPanel x:Name="wordBankSection" Grid.Column="3" HorizontalAlignment="Left" Height="322" Margin="713,85,-360,0" VerticalAlignment="Top" Width="300" Background="#FFE4DEDE">
             <Label Content="Current Word Bank" Height="75" Width="150"/>
             <Label x:Name="nameLoadedBank" Content="Label" Height="75" Width="150"/>
             <Button Content="&lt;" Width="150" Height="30"/>
             <Button Content=">" Width="150" Height="30"/>
             <ListBox x:Name="loadedBank" Height="100" Width="300"/>
         </WrapPanel>
-        <Grid HorizontalAlignment="Left" Height="100" Margin="23,48,0,0" VerticalAlignment="Top" Width="303" Background="#FFF7EBEB">
+        <Grid HorizontalAlignment="Left" Height="164" Margin="38,42,0,0" VerticalAlignment="Top" Width="304" Background="#FFF7EBEB">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="FileName: " VerticalAlignment="Top" Margin="10,10,0,0"/>
             <TextBlock x:Name="CurrFileName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="68,10,0,0"><Run Text=" NoneSelected"/><LineBreak/><Run/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Margin="159,10,0,0"/>
-            <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" RenderTransformOrigin="0.756,0.362" Margin="237,10,-16,0"/>
-            <Button x:Name="previousFileBtn" Content="&lt;" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile" Margin="78,46,0,0"/>
-            <Button x:Name="nextFileBtn" Content="&gt;" HorizontalAlignment="Right" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile" Margin="0,46,86,0"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Margin="10,47,0,0"/>
+            <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" RenderTransformOrigin="0.756,0.362" Margin="152,50,0,0"/>
+            <Button x:Name="previousFileBtn" Content="&lt;" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile" Margin="34,109,0,0"/>
+            <Button x:Name="nextFileBtn" Content="&gt;" HorizontalAlignment="Right" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile" Margin="0,109,131,0"/>
         </Grid>
         <Grid x:Name="textEntryGrid" HorizontalAlignment="Left" Height="459" Margin="365,42,0,0" VerticalAlignment="Top" Width="957" Grid.ColumnSpan="4">
             <Grid.RowDefinitions>

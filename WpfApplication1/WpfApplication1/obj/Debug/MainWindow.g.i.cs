@@ -64,7 +64,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 25 "..\..\MainWindow.xaml"
+        #line 23 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Label currentProject;
         
@@ -72,7 +72,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 31 "..\..\MainWindow.xaml"
+        #line 29 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Label mode;
         
@@ -80,7 +80,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 34 "..\..\MainWindow.xaml"
+        #line 32 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Label sentences;
         
@@ -88,7 +88,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 37 "..\..\MainWindow.xaml"
+        #line 35 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Label words;
         
@@ -96,7 +96,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 41 "..\..\MainWindow.xaml"
+        #line 39 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Label timeRemaining;
         
@@ -104,7 +104,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 45 "..\..\MainWindow.xaml"
+        #line 43 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox muID;
         
@@ -112,7 +112,7 @@ namespace WpfApplication1 {
         #line hidden
         
         
-        #line 48 "..\..\MainWindow.xaml"
+        #line 46 "..\..\MainWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox studentName;
         
@@ -189,22 +189,22 @@ namespace WpfApplication1 {
             case 6:
             
             #line 13 "..\..\MainWindow.xaml"
-            ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.saveAssignment);
+            ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.loadTest);
             
             #line default
             #line hidden
             return;
             case 7:
             
-            #line 15 "..\..\MainWindow.xaml"
-            ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.loadTest);
+            #line 14 "..\..\MainWindow.xaml"
+            ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.testBegin);
             
             #line default
             #line hidden
             return;
             case 8:
             
-            #line 16 "..\..\MainWindow.xaml"
+            #line 15 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.testBegin);
             
             #line default
@@ -212,39 +212,31 @@ namespace WpfApplication1 {
             return;
             case 9:
             
-            #line 17 "..\..\MainWindow.xaml"
-            ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.testBegin);
-            
-            #line default
-            #line hidden
-            return;
-            case 10:
-            
-            #line 20 "..\..\MainWindow.xaml"
+            #line 18 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.MenuItem)(target)).Click += new System.Windows.RoutedEventHandler(this.changeIt);
             
             #line default
             #line hidden
             return;
-            case 11:
+            case 10:
             this.currentProject = ((System.Windows.Controls.Label)(target));
             return;
-            case 12:
+            case 11:
             this.mode = ((System.Windows.Controls.Label)(target));
             return;
-            case 13:
+            case 12:
             this.sentences = ((System.Windows.Controls.Label)(target));
             return;
-            case 14:
+            case 13:
             this.words = ((System.Windows.Controls.Label)(target));
             return;
-            case 15:
+            case 14:
             this.timeRemaining = ((System.Windows.Controls.Label)(target));
             return;
-            case 16:
+            case 15:
             this.muID = ((System.Windows.Controls.TextBox)(target));
             return;
-            case 17:
+            case 16:
             this.studentName = ((System.Windows.Controls.TextBox)(target));
             return;
             }

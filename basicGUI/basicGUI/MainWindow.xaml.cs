@@ -41,10 +41,12 @@ namespace basicGUI
         List<string> testWordBank = new List<string>(0);
         int currentSentCount = 0;
         int currentWordCount = 0;
-        string testKey;
+        Boolean testLoaded = false;
+        string currentMode = "";
         Boolean paperPass = false;
         Boolean testModeIsEnabled = false;
         static System.Timers.Timer myTimer;
+        int testSentencesMin, testWordsMin;
         List<string> temporaryBank = new List<string>(0);
         List<string> printedBank = new List<string>(0);
         List<System.Windows.Documents.List> containerWordBanks = new List<System.Windows.Documents.List>(0);
@@ -174,6 +176,45 @@ namespace basicGUI
 
             currentSentCount = increment;
         }
+
+        private void getSentences(string inTextBlock, int reqLength)
+        {
+            string[] characters = inTextBlock.Split(' ');
+
+            int increment = 0;
+            int startCut = 0;
+
+            inTextBlock = inTextBlock.Trim();
+            for (int begin = 0; begin <= inTextBlock.Length; begin++)
+            {
+
+                if (inTextBlock.Substring(startCut, begin - startCut).Contains(".") || inTextBlock.Substring(startCut, begin - startCut).Contains("?") || inTextBlock.Substring(startCut, begin - startCut).Contains("!"))
+                {
+
+                    //if (minWords.Text == "")
+                    //{
+                    //    increment++;
+                    //}
+                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
+                    //{
+                    //    increment++;
+                    //}
+                    if (inTextBlock.Substring(startCut, begin - startCut).Split(' ').Length >= reqLength)
+                    { 
+                        increment++;
+                    }
+                    startCut = begin;
+                }
+
+
+
+            }
+
+
+
+
+            currentSentCount = increment;
+        }
         private int UniqueWords(string inTextBlock)
         {
             Dictionary<string, int> dictionary =  new Dictionary<string, int>();
@@ -247,9 +288,10 @@ namespace basicGUI
         
         
         }
-        private void setMode(string currentMode)
-        {   
-            Action act = () => { modeLabel.Content = currentMode; };
+        private void setMode(string currMode)
+        {
+            currentMode = currMode;
+            Action act = () => { modeLabel.Content = currMode; };
             Content.Dispatcher.Invoke(act);
         }
         private void loadFile(object sender, RoutedEventArgs e)
@@ -309,6 +351,11 @@ namespace basicGUI
 
                 string[] fileArray = Directory.EnumerateFiles(folderPath, "*.txt").ToArray();
 
+                if( fileArray.Length == 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("I'm sorry the directoy you've selected does not have any files to load.");
+                    return;
+                }
                 if (currFileList.Capacity != 0)
                 {
                     currFileList.Clear();
@@ -344,6 +391,7 @@ namespace basicGUI
             }
 
         }
+
         private void previousFile(object sender, RoutedEventArgs e)
         {
             if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) <= 0)
@@ -356,7 +404,8 @@ namespace basicGUI
                 currfile = currFileList[index];
                 string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
                 CurrFileName.Text = croppedFile;
-                string fileContents = System.IO.File.ReadAllText(currfile);
+                string orgText = System.IO.File.ReadAllText(currfile);
+                string fileContents = decryptText(orgText);
                 if (fileContents.Contains("-:Tyson Results:-"))
                 {
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
@@ -381,7 +430,8 @@ namespace basicGUI
                 currfile = currFileList[index];
                 string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
                 CurrFileName.Text = croppedFile;
-                string fileContents = System.IO.File.ReadAllText(currfile);
+                string orgText = System.IO.File.ReadAllText(currfile);
+                string fileContents = decryptText(orgText);
                 if (fileContents.Contains("-:Tyson Results:-"))
                 {
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
@@ -398,20 +448,69 @@ namespace basicGUI
 
             foreach (string file in currFileList)
             {
-               
-                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(file, false))
+                if (currentMode.Equals("Batch Test Evaluation"))
+                {
+                    string path = Directory.GetCurrentDirectory();
+                    string fileName = "Ressult" + file.Substring(file.LastIndexOf("\\") + 1).Replace("tyTxt", ".txt");
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path+fileName, false))
                     {
                         string Essay = Content.Text;
+                        wordCount(Essay);
+                        getSentences(Essay,testWordsMin);
                         outputFile.WriteLine(Essay);
                         outputFile.WriteLine("-:Tyson Results:-");
                         outputFile.WriteLine("----------------------------------------------------");
                         outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
                         outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
                         outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
+                        outputFile.WriteLine("Test Requirements ");
+                        outputFile.WriteLine("Minimum Words: " + testWordsMin.ToString());
+                        outputFile.WriteLine("Minimum Sentences: " + testSentencesMin.ToString());
+                        outputFile.WriteLine("Word Bank Provided");
+                        foreach(string word in wordBank)
+                        {
+                            outputFile.WriteLine(word);
+                        }
+
+                        if (currentSentCount >= testSentencesMin && wordBankEval() == true)
+                        {
+
+                            outputFile.WriteLine("Test Criteria Met: Yes");
+
+                        }
+                        else {
+                            outputFile.WriteLine("Test Criteria Met: No");
+                        
+                        
+                        }
                         outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
 
 
                     }
+
+
+
+
+                }
+                else
+                {
+                    using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(file, false))
+                    {
+                        string Essay = Content.Text;
+                        wordCount(Essay);
+                        getSentences(Essay);
+                        outputFile.WriteLine(Essay);
+                        outputFile.WriteLine("-:Tyson Results:-");
+                        outputFile.WriteLine("----------------------------------------------------");
+                        outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
+                        outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
+                        outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
+                     
+                        outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
+
+
+                    }
+                }
                 
             }
         }
@@ -608,6 +707,7 @@ namespace basicGUI
         }
         private void loadTest(object sender, RoutedEventArgs e)
         {
+            testLoaded = true;
             List<bool> contents = new List<bool>(0);
             Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
             openFileDialog1.Filter = "Tyson Test Files (.tySon)|*.tySon|All Files (*.*)|*.*";
@@ -642,12 +742,14 @@ namespace basicGUI
                 
                 if (contentA[0] == true)
                 {
+                    testSentencesMin = Int32.Parse(lines[currPointer]);
                     //minSentences.Text = lines[currPointer];
                     currPointer++;
                     
                 }
                 if (contentA[1] == true)
                 {
+                    testWordsMin = Int32.Parse(lines[currPointer]);
                     //minWords.Text = lines[currPointer];
                     currPointer++;}
                 if (contentA[2] == true)
@@ -685,21 +787,21 @@ namespace basicGUI
             System.Environment.Exit(0);
         }
 
-        private void switchTestMode(object sender, RoutedEventArgs e)
-        {
-            testModeIsEnabled = !testModeIsEnabled;
-            if (testModeIsEnabled == true)
-            {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
-                testMode.IsChecked = true;
-            }
-            else
-            {
-                testMode.IsChecked = false;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-            }
-        }
+        //private void switchTestMode(object sender, RoutedEventArgs e)
+        //{
+        //    testModeIsEnabled = !testModeIsEnabled;
+        //    if (testModeIsEnabled == true)
+        //    {
+        //        this.WindowStyle = WindowStyle.None;
+        //        this.WindowState = WindowState.Maximized;
+        //        testMode.IsChecked = true;
+        //    }
+        //    else
+        //    {
+        //        testMode.IsChecked = false;
+        //        this.WindowStyle = WindowStyle.SingleBorderWindow;
+        //    }
+        //}
 
         private void encryptExport(object sender, RoutedEventArgs e)
         {
@@ -801,6 +903,45 @@ namespace basicGUI
 
         }
 
+        private string decryptText(String encryptedText)
+        {
+
+            if (encryptedText == " ")
+            {
+                return "";
+            
+            }
+
+            byte[] keyArray;
+            //get the byte code of the string
+
+            byte[] toEncryptArray = Convert.FromBase64String(encryptedText);
+
+
+            //Get your key from config file to open the lock!
+            string key = "Marmalade";
+
+
+            MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
+            keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+            hashmd5.Clear();
+
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+            tdes.Key = keyArray;
+
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform cTransform = tdes.CreateDecryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(
+                                 toEncryptArray, 0, toEncryptArray.Length);
+            tdes.Clear();
+            return UTF8Encoding.UTF8.GetString(resultArray);
+            
+        
+        
+        }
+
         private void switchTestForm(object sender, RoutedEventArgs e)
         {
             textEntryGrid.Visibility = System.Windows.Visibility.Collapsed;
@@ -848,6 +989,68 @@ namespace basicGUI
             
             }
             
+        }
+
+        private void testBatchLoad(object sender, RoutedEventArgs e)
+        {
+            if (testLoaded != true)
+            {
+                System.Windows.Forms.MessageBox.Show("I apologize you need to load in a test first to batch load tests forms. ");
+                return;
+            
+            }
+            FolderBrowserDialog myDialog = new FolderBrowserDialog();
+            if (myDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string folderPath = myDialog.SelectedPath;
+                setMode("Batch Test Evaluation");
+                
+
+                string[] fileArray = Directory.EnumerateFiles(folderPath, "*.tyTxt").ToArray();
+
+                if( fileArray.Length == 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("I'm sorry the directoy you've selected does not have any files to load.");
+                    return;
+                }
+                if (currFileList.Capacity != 0)
+                {
+                    currFileList.Clear();
+                    currFileList = new List<string>(0);
+                
+                }
+                
+                foreach (string file in fileArray)
+                {
+                    
+                        currFileList.Add(file);
+                    
+
+                    //fileStream = new FileStream(file, FileMode.Open);
+                    //reader = new StreamReader(fileStream);
+                    
+                    //fileStream.Close();
+                }
+                filePosition.Text = "1 out of " + (currFileList.Capacity-1).ToString();
+                currfile = currFileList[0];
+                
+                string croppedFile = currfile.Substring(currfile.LastIndexOf("\\")+1);
+                CurrFileName.Text = croppedFile;
+                string currentText = System.IO.File.ReadAllText(currFileList[0]);
+                string fileContents = decryptText(currentText);
+                
+                if (fileContents.Contains("-:Tyson Results:-"))
+                {
+                    int endPoint = fileContents.IndexOf("-:Tyson Results:-");
+                    fileContents = fileContents.Substring(0, endPoint);
+
+
+
+                }
+                Content.Text = fileContents; 
+            }
+
+        
         }
 
         
