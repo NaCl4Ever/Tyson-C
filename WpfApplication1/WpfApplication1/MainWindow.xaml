@@ -1,19 +1,22 @@
-﻿<Window x:Class="WpfApplication1.MainWindow"
+﻿<Window x:Name="currentDisplay" x:Class="WpfApplication1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="MainWindow" Height="600" Width="1100">
+    <Grid Margin="0,0,-188,-137">
 
-        <TextBox x:Name="textContent" HorizontalAlignment="Left" Height="169" Margin="166,139,0,0" TextWrapping="Wrap" Text="Being typing your essay here." VerticalAlignment="Top" Width="317" SpellCheck.IsEnabled="True"/>
+        <TextBox x:Name="textContent" HorizontalAlignment="Left" Height="330" Margin="166,123,0,0" TextWrapping="Wrap" Text="Select a mode to begin with." VerticalAlignment="Top" Width="719" SpellCheck.IsEnabled="True"/>
         <DockPanel Height="33" LastChildFill="False" VerticalAlignment="Bottom" RenderTransformOrigin="0.507,-0.293" Margin="0,0,0,286"/>
         <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="517">
-            <MenuItem Header="File">
-                <MenuItem Header="Load Single File" Click="Button_Click" ToolTip="Loads a single text file "/>
-                <MenuItem Header="Load Test"  ToolTip="Loads a single text file " Click="loadTest"/>
-                <MenuItem Header="Start Test"  ToolTip="Loads a single text file " Click="testBegin" />
+            <MenuItem x:Name="fileMenu" Header="File">
+                <MenuItem Header="Load Text File"  ToolTip="Loads a single text file." Click="loadText"/>
+                <MenuItem Header="Load Assignment" Click="Button_Click" ToolTip="Loads an assignment file at the end file will be saved for viewing."/>
+                <MenuItem Header="Load Test"  ToolTip="Loads a test that is timed, upon timer completion file is saved." Click="loadTest"/>
+                <MenuItem Header="Begin Test"  ToolTip="Begins the current test, then allows the user to enter their response. " Click="testBegin" />
+                <MenuItem Header="Begin Assignment"  ToolTip="Begins the timer, then allows the user to enter their response. " Click="testBegin" />
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Decrypt Current" Click="decrypt" ToolTip="Decrypts the current file"/>
+                <MenuItem Header="Lock this shit"  ToolTip="Decrypts the current file" Click="changeIt"/>
             </MenuItem>
             <MenuItem Header="Help"/>
         </Menu>
@@ -22,7 +25,7 @@
 
 
 
-        <WrapPanel HorizontalAlignment="Left" Margin="19,61,0,117" Width="121">
+        <WrapPanel HorizontalAlignment="Left" Margin="19,61,0,107" Width="121">
             <Border BorderBrush="Black" BorderThickness="2">
                 <Label x:Name="mode" Content="Mode: Not Selected" Width="121"/>
             </Border>
@@ -32,10 +35,10 @@
             <Border BorderBrush="Black" BorderThickness="2">
                 <Label x:Name="words" Content="" Width="121"/>
             </Border>
+
             <Border BorderBrush="Black" BorderThickness="2">
-                <Label x:Name="time" Content="" Width="121"/>
+                <Label x:Name="timeRemaining" Content="" Width="121" />
             </Border>
-            
         </WrapPanel>
 
         <TextBox x:Name="muID" HorizontalAlignment="Left" Height="26" Margin="300,61,0,0" TextWrapping="Wrap" Text="Enter id(901-xxx-xxxx) " VerticalAlignment="Top" Width="138" SpellCheck.IsEnabled="True"/>

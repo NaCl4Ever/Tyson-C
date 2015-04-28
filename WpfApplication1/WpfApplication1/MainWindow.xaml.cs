@@ -24,7 +24,9 @@ namespace WpfApplication1
     public partial class MainWindow : Window
     {
         static Timer myTimer;
+        static Timer remainingTime; 
         int currTimeAlottment = 0;
+        double currRemainTime = 0;
         int minSents, minWords;
         string testName;
         string currEncrypt;
@@ -36,18 +38,19 @@ namespace WpfApplication1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             mode.Content = "Mode: Assignment";
             textContent.IsReadOnly = false;
             currTimeAlottment = 0;
             minSents = 0;
             minWords = 0;
             testName = null;
-            sentences.Content = "";
-            words.Content = "";
-            time.Content = "";
+            //sentences.Content = "";
+            //words.Content = "";
+            //remainingTime = "";
 
             Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            openFileDialog1.Filter = "tySon (.)|*.tySon|All Files (*.*)|*.*";
             openFileDialog1.FilterIndex = 1;
             openFileDialog1.Multiselect = false;
             bool? userClickedOK = openFileDialog1.ShowDialog();
@@ -55,7 +58,7 @@ namespace WpfApplication1
             {
                 // Open the selected file to read.
 
-                currentProject.Content = openFileDialog1.SafeFileName;
+                currentProject.Content = openFileDialog1.SafeFileName.Replace(".txt", "");
 
                 String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
 
@@ -66,10 +69,22 @@ namespace WpfApplication1
         }
         private void timerBegin()
         {
+            switchMode(1);
             myTimer = new Timer(currTimeAlottment*60*1000);
             myTimer.Elapsed += new ElapsedEventHandler(myTimer_Elapsed);
             myTimer.Enabled = true;
             
+        }
+        private void updateTimer()
+        {
+            int minutes = (int)(currRemainTime / 60);
+            double seconds = currRemainTime - (minutes * 60);
+            Action act = () => { timeRemaining.Content = "Time" + minutes.ToString() + " : 0" + seconds.ToString(); };
+            remainingTime = new Timer(1000);
+            remainingTime.Elapsed += new ElapsedEventHandler(updateInterval);
+            remainingTime.Enabled = true;
+            remainingTime.AutoReset = true;
+
         }
         private void changeContent(string content)
         {
@@ -81,7 +96,42 @@ namespace WpfApplication1
 
         
         }
+        private void updateInterval(object sender, ElapsedEventArgs e)
+        {
+            
+            if (currRemainTime == 0)
+            {
+                remainingTime.Enabled = false;
+                int minutes = (int)(currRemainTime / 60);
+                double seconds = currRemainTime - (minutes * 60);
+                Action act = () => { timeRemaining.Content = "Time: " + minutes.ToString() + " : 0" + seconds.ToString(); };
+                textContent.Dispatcher.Invoke(act);
 
+
+            }
+            else
+            {
+                currRemainTime = currRemainTime - 1;
+                int minutes = (int)(currRemainTime / 60);
+                double seconds = currRemainTime - (minutes * 60);
+                if (seconds >= 10)
+                {
+                    Action act = () => { timeRemaining.Content = "Time: " + minutes.ToString() + " : " + seconds.ToString(); };
+                    textContent.Dispatcher.Invoke(act);
+                }
+                else
+                {
+                    Action act = () => { timeRemaining.Content = "Time: " + minutes.ToString() + " : 0" + seconds.ToString(); };
+                    textContent.Dispatcher.Invoke(act);    
+                }
+
+                
+
+                
+            }
+            
+
+        }
         private void myTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
              myTimer.Enabled = false;
@@ -93,9 +143,8 @@ namespace WpfApplication1
             {
                 outputFile.WriteLine(currEncrypt);
             }
-        
+            switchMode(0);
         }
-
         private void encrypt(object sender, RoutedEventArgs e)
         {
             byte[] keyArray;
@@ -117,7 +166,6 @@ namespace WpfApplication1
             tdes.Clear();
             currEncrypt = Convert.ToBase64String(resultArray, 0, resultArray.Length);
         }
-
         private void realEncrypt()
         {
             byte[] keyArray;
@@ -169,7 +217,6 @@ namespace WpfApplication1
             tdes.Clear();
             textContent.Text = UTF8Encoding.UTF8.GetString(resultArray);
         }
-
         private void hide(object sender, RoutedEventArgs e)
         {
             if (textContent.IsVisible)
@@ -181,7 +228,6 @@ namespace WpfApplication1
                 textContent.Visibility = System.Windows.Visibility.Visible;
                 }
         }
-
         private void loadTest(object sender, RoutedEventArgs e)
         {
 
@@ -234,7 +280,7 @@ namespace WpfApplication1
                 if (contentA[2] == true)
                 {
                     currTimeAlottment = Int32.Parse(lines[currPointer]);
-                    time.Content = "Time: " + currTimeAlottment;
+                    timeRemaining.Content = "Time: " + currTimeAlottment + ": 00";
                     currPointer++;
 
                 }
@@ -255,18 +301,78 @@ namespace WpfApplication1
                 currentProject.Content = testName;
             }
         }
-
         private void testBegin(object sender, RoutedEventArgs e)
         {
             if (currTimeAlottment != 0)
             {
-                textContent.IsReadOnly = false;
+                currRemainTime = currTimeAlottment*60; 
+                textContent.IsReadOnly = false;                
+                updateTimer();
                 timerBegin();
+                
             }
             else
             {
                 return;
             }
         }
+        private void loadText(object sender, RoutedEventArgs e)
+        {
+          
+
+            Microsoft.Win32.OpenFileDialog openFileDialog1 = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog1.Filter = "Text (.)|*.txt|All Files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = false;
+            bool? userClickedOK = openFileDialog1.ShowDialog();
+            if (userClickedOK == true)
+            {
+                // Open the selected file to read.
+
+                currentProject.Content = openFileDialog1.SafeFileName.Replace(".txt", "");
+
+                String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
+
+                textContent.Text = fileText;
+
+            }
+        }
+        private void switchMode(int modeSetting) {
+            
+            // sets to initial mode meaning all locks are removed, all files are cleared, and the system is refreshed
+            if (modeSetting == 0)
+            {
+                Action act = () =>
+                {
+                    fileMenu.IsEnabled = true; 
+                    currentDisplay.WindowStyle = System.Windows.WindowStyle.None;
+                };
+                textContent.Dispatcher.Invoke(act);
+                myTimer.Close();
+                remainingTime.Close();
+                
+            }
+            //Locks system down to test mode
+            else if(modeSetting == 1)
+            {
+
+                Action act = () =>
+                {
+                    currentDisplay.WindowStyle = System.Windows.WindowStyle.None;
+                    currentDisplay.WindowState = System.Windows.WindowState.Maximized;
+                };
+                textContent.Dispatcher.Invoke(act);
+            
+            }
+
+        
+        }
+
+        private void changeIt(object sender, RoutedEventArgs e)
+        {
+            switchMode(0);
+        }
+
+
     }
 }

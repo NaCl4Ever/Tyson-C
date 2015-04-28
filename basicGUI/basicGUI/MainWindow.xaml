@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="basicGUI.MainWindow"
         Title="Project Tyson" 
-        Icon="TysonIcon.ico"   WindowState="Maximized" WindowStartupLocation="CenterScreen" Width="1675" d:DesignHeight="575" >
-    <Grid Margin="0,0,0,16" HorizontalAlignment="Left" Width="1064">
+        Icon="TysonIcon.ico"   WindowState="Maximized" WindowStartupLocation="CenterScreen" Width="1675" d:DesignHeight="575" SizeToContent="WidthAndHeight" Visibility="Visible" Background="#FF1F801A" >
+    <Grid Margin="0,0,0,16" HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="605*"/>
             <ColumnDefinition Width="34*"/>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="1015*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel HorizontalAlignment="Left" Height="24" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" Width="1042" Grid.ColumnSpan="4">
-            <Menu x:Name="FileMenu" Width="65" Height="24" VerticalAlignment="Top">
+        <DockPanel HorizontalAlignment="Left" Height="24" LastChildFill="False" Margin="20,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4">
+            <Menu x:Name="FileMenu" Height="24" VerticalAlignment="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Load Single File" Click="loadFile" ToolTip="Loads a single text file "/>
                     <MenuItem Header="Load Folder" Click="batchLoad" Height="27" ToolTip="Loads an entire directory will only load text files"/>
@@ -27,7 +27,7 @@
                     <MenuItem Header="Exit" Click="shutDown"/>
                 </MenuItem>
             </Menu>
-            <Menu Width="65">
+            <Menu>
                 <MenuItem x:Name="EditMenu" Header="Edit" Width="70">
                     <MenuItem Header="Refresh Forms" ToolTip="Refreshses all of the forms with current scores" Click="Button_Click"/>
                     <MenuItem Header="Switch To Test Creation" ToolTip="Creates a new test using a form" Click="switchTestForm" />
@@ -39,13 +39,6 @@
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>
         </DockPanel>
-        <WrapPanel x:Name="main_Display" HorizontalAlignment="Left" Height="416" Margin="10,48,0,0" VerticalAlignment="Top" Width="413" Grid.Column="3">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="In Minutes" VerticalAlignment="Top" Height="23" Width="79" TextAlignment="Center" Visibility="Hidden"/>
-            <Button Content="Start Timer&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" ToolTip="This will output the data into a seperate file for printing and records" Click="decryptFile" Visibility="Hidden"/>
-            <TextBox x:Name="Key" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="Key" Visibility="Hidden" />
-            <TextBox x:Name="outputName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="File Name" Visibility="Hidden" />
-            <TextBox x:Name="Content" HorizontalAlignment="Center" Height="340" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" Width="330" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33" Margin="25,0,0,0"/>
-        </WrapPanel>
         <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="331,66,0,0" VerticalAlignment="Top" Width="274" Visibility="Collapsed" Grid.ColumnSpan="4" Grid.RowSpan="2">
             <Label Content="Test Name: "/>
             <TextBox x:Name="testName" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
@@ -64,22 +57,6 @@
 
             </WrapPanel>
             <Button Content="Save Test" Width="75" Height="31" Click="exportTest"/>
-        </WrapPanel>
-        <WrapPanel HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="350" RenderTransformOrigin="0.5,0.5" Margin="20,52,0,0">
-            <WrapPanel.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="-0.345"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="-0.494"/>
-                </TransformGroup>
-            </WrapPanel.RenderTransform>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="FileName: " VerticalAlignment="Top" Height="32" Width="68"/>
-            <TextBlock x:Name="CurrFileName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="31" Width="91"><Run Text=" NoneSelected"/><LineBreak/><Run/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Height="24" Width="73"/>
-            <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Height="24" Width="82" RenderTransformOrigin="0.756,0.362"/>
-            <Button x:Name="previousFileBtn" Content="&lt;" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile"/>
-            <Button x:Name="nextFileBtn" Content="&gt;" HorizontalAlignment="Right" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile"/>
         </WrapPanel>
         <WrapPanel HorizontalAlignment="Left" Height="253" Margin="20,169,0,0" VerticalAlignment="Top" Width="180
                    ">
@@ -101,6 +78,24 @@
             <Button Content=">" Width="150" Height="30"/>
             <ListBox x:Name="loadedBank" Height="100" Width="300"/>
         </WrapPanel>
+        <Grid HorizontalAlignment="Left" Height="100" Margin="23,48,0,0" VerticalAlignment="Top" Width="303" Background="#FFF7EBEB">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="FileName: " VerticalAlignment="Top" Margin="10,10,0,0"/>
+            <TextBlock x:Name="CurrFileName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="68,10,0,0"><Run Text=" NoneSelected"/><LineBreak/><Run/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="File Postion:" VerticalAlignment="Top" Margin="159,10,0,0"/>
+            <TextBlock x:Name="filePosition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" RenderTransformOrigin="0.756,0.362" Margin="237,10,-16,0"/>
+            <Button x:Name="previousFileBtn" Content="&lt;" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile" Margin="78,46,0,0"/>
+            <Button x:Name="nextFileBtn" Content="&gt;" HorizontalAlignment="Right" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile" Margin="0,46,86,0"/>
+        </Grid>
+        <Grid x:Name="textEntryGrid" HorizontalAlignment="Left" Height="459" Margin="365,42,0,0" VerticalAlignment="Top" Width="957" Grid.ColumnSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="77*"/>
+                <RowDefinition Height="382*"/>
+            </Grid.RowDefinitions>
+
+            <TextBox x:Name="Content" HorizontalAlignment="Center" TextWrapping="Wrap" IsReadOnly="False" Text="Begin typing your essay here" VerticalAlignment="Top" TextChanged="Content_TextChanged" SelectionBrush="#FFECFF33" Margin="10,10,10,0" Height="439" Width="937" Grid.RowSpan="2"/>
+
+
+        </Grid>
 
     </Grid>
 </Window>

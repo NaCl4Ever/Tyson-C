@@ -707,7 +707,7 @@ namespace basicGUI
             byte[] keyArray;
             byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(Content.Text);
 
-            string key = Key.Text;
+            string key = "Marmalade";
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
             hashmd5.Clear();
@@ -777,7 +777,7 @@ namespace basicGUI
 
 
             //Get your key from config file to open the lock!
-            string key = Key.Text;
+            string key = "Marmalade";
 
 
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
@@ -803,13 +803,13 @@ namespace basicGUI
 
         private void switchTestForm(object sender, RoutedEventArgs e)
         {
-            main_Display.Visibility = System.Windows.Visibility.Collapsed;
+            textEntryGrid.Visibility = System.Windows.Visibility.Collapsed;
             testForms.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void switchEval(object sender, RoutedEventArgs e)
         {
-            main_Display.Visibility = System.Windows.Visibility.Visible;
+            textEntryGrid.Visibility = System.Windows.Visibility.Visible;
             testForms.Visibility = System.Windows.Visibility.Collapsed;
         }
 
