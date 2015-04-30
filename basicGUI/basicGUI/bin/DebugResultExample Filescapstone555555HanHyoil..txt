@@ -1,0 +1,15 @@
+I would like to type a quick example. Here is another example but really is it? Also were is the word bank? Stanford NLP was really cool in the 90's.
+-:Tyson Results:-
+----------------------------------------------------
+Total Sentences: 4
+Word Count: 30
+Unique Words: 26
+Test Requirements 
+Minimum Words: 4
+Minimum Sentences: 5
+Word Bank Provided
+help
+yelp
+wrong
+Test Criteria Met: No
+File up to date as of: 4/29/2015

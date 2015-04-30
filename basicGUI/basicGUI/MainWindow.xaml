@@ -22,9 +22,6 @@
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Load Word Bank"  ToolTip="Loads a new wordBank into a list of wordbanks" Click="loadBank"/>
                     <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
-                    <MenuItem Header="Encrypt Save" Click="encryptExport" ToolTip="Exports file securely"/>
-                    <MenuItem Header="Load Encrypt" Click="decryptFile" ToolTip="Decrypt File"/>
-                    <Separator HorizontalAlignment="Left" Height="6" Width="168"/>
                     <MenuItem Header="Exit" Click="shutDown"/>
                 </MenuItem>
             </Menu>
@@ -40,35 +37,35 @@
             </Menu>
             <Menu Height="24" VerticalAlignment="Center" Width="1515" DockPanel.Dock="Top"/>
         </DockPanel>
-        <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="596,67,0,0" VerticalAlignment="Top" Width="270" Grid.ColumnSpan="4" Background="#FFF9F2F2" Visibility="Collapsed">
-            <Label Content="Test Name: "/>
-            <TextBox x:Name="testName" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
-            <Label Content="Min Sent: "/>
-            <TextBox x:Name="minSentTest" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
-            <Label Content="Min Words: "/>
-            <TextBox x:Name="minWordsTest" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
-            <Label Content="Time: "/>
-            <TextBox x:Name="testDuration" Height="23" TextWrapping="Wrap" Text="" Width="160"/>
-            <WrapPanel HorizontalAlignment="Center" Height="225" VerticalAlignment="Top" Width="180" Margin="0">
+        <WrapPanel x:Name="testForms" HorizontalAlignment="Left" Height="414" Margin="518,67,0,0" VerticalAlignment="Top" Width="500" Grid.ColumnSpan="4" Background="#FFF9F2F2">
+            <Label Content="Test Name: " Width="150"/>
+            <TextBox x:Name="testName" Height="23" TextWrapping="Wrap" Text="" Width="350"/>
+            <Label Content="Minimum Sentences: " Width="150"/>
+            <TextBox x:Name="minSentTest" Height="23" TextWrapping="Wrap" Text="" Width="350"/>
+            <Label Content="Minimum Word Count: " Width="150"/>
+            <TextBox x:Name="minWordsTest" Height="23" TextWrapping="Wrap" Text="" Width="350"/>
+            <Label Content="Time (Provided in Minutes): " Width="150" Height="23"/>
+            <TextBox x:Name="testDuration" Height="23" TextWrapping="Wrap" Text="" Width="350
+                     "/>
+            <WrapPanel HorizontalAlignment="Center" Height="225" VerticalAlignment="Top" Width="180" >
                 <TextBlock  TextWrapping="Wrap" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="153"><Run Text="Word Bank Entry"/><LineBreak/><Run/></TextBlock>
                 <TextBox x:Name="testWordEntry" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" Text="Enter a new word here" />
                 <Button  Content="Add&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="submitWord" Height="20"/>
                 <Button  Content="Remove&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="removeSelectedTest" Height="20"/>
                 <ListBox x:Name="testWordBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="174"/>
+                <Button Content="Save Test" Width="75" Height="31" Click="exportTest"/>
 
             </WrapPanel>
-            <Button Content="Save Test" Width="75" Height="31" Click="exportTest"/>
         </WrapPanel>
-        <WrapPanel HorizontalAlignment="Left" Height="253" Margin="20,228,0,0" VerticalAlignment="Top" Width="180
-                   " Background="#FFFBEFEF">
-            <Label Content="Mode:" Width="90"/>
-            <Label x:Name="modeLabel" Content="" Width="90"/>
-            <Label Content="Test Name:" Width="90"/>
-            <Label x:Name="testNameLabel" Content="" Width="90"/>
-            <Label Content="Unique Words" Width="90"/>
-            <Label x:Name="wordsLabel" Content="" Width="90"/>
-            <Label Content="Sentences" Width="90"/>
-            <Label x:Name="sentenceLabel" Content="" Width="90"/>
+        <WrapPanel HorizontalAlignment="Left" Height="116" Margin="38,228,0,0" VerticalAlignment="Top" Width="304" Background="#FFFBEFEF">
+            <Label Content="Mode:" Width="152"/>
+            <Label x:Name="modeLabel" Content="" Width="152"/>
+            <Label Content="Test Name:" Width="152"/>
+            <Label x:Name="testNameLabel" Content="" Width="152"/>
+            <Label Content="Unique Words" Width="152"/>
+            <Label x:Name="wordsLabel" Content="" Width="152"/>
+            <Label Content="Sentences" Width="152"/>
+            <Label x:Name="sentenceLabel" Content="" Width="152"/>
 
         </WrapPanel>
 
@@ -87,7 +84,7 @@
             <Button x:Name="previousFileBtn" Content="&lt;" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="58" Click="previousFile" Margin="34,109,0,0"/>
             <Button x:Name="nextFileBtn" Content="&gt;" HorizontalAlignment="Right" Height="27" VerticalAlignment="Top" Width="58" Click="nextFile" Margin="0,109,131,0"/>
         </Grid>
-        <Grid x:Name="textEntryGrid" HorizontalAlignment="Left" Height="459" Margin="365,42,0,0" VerticalAlignment="Top" Width="957" Grid.ColumnSpan="4">
+        <Grid x:Name="textEntryGrid" HorizontalAlignment="Left" Height="459" Margin="365,42,0,0" VerticalAlignment="Top" Width="957" Grid.ColumnSpan="4" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="77*"/>
                 <RowDefinition Height="382*"/>

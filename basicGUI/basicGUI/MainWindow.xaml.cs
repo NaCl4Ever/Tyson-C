@@ -34,32 +34,61 @@ namespace basicGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Variable Declartations 
+        /// currfileList: List containing all current file pathways for the batch you are working on
+        /// sentences: Contains sentences of the current content being displayed. 
+        /// WordBank:  Used only during Testing, this is represents the required words. 
+        /// testWordBank: 
+        /// temporaryBank:
+        /// printedBank: Sentences that will be printed in the current visual listbox of the word bank.
+        /// currentMode: Will be updated to show what the mode is, and also used to update the GUI with the current mode. Sometimes used in checks
+        /// currFile:  Points to the current file you are accessing regardless of mode
+        /// testLoaded: Lets you know if a test has been loaded currently
+        /// paperPass: determines whether or not a paper has past the current
+        /// testModeisEnabled: True if you are evaluating tests, false if you are evaluating assignments
+        /// currentSentCount = Provides the number of sentences currently in the content shown.
+        /// currentWordCount = Provides the number of words currently in the content shown. 
+        /// testSentencesMin = Minimum Number of sentences for a test paper to pass.
+        /// testWordsMin = Minimum Number of words for a sentence to be considered a sentence.
+        /// myTimer = your timer
+        /// 
+        /// </summary>
         List<string> currFileList = new List<string>(0);
         List<string> sentences = new List<string>(0);
-        string currfile = null;
         List<string> wordBank = new List<string>(0);
         List<string> testWordBank = new List<string>(0);
-        int currentSentCount = 0;
-        int currentWordCount = 0;
-        Boolean testLoaded = false;
-        string currentMode = "";
-        Boolean paperPass = false;
-        Boolean testModeIsEnabled = false;
-        static System.Timers.Timer myTimer;
-        int testSentencesMin, testWordsMin;
         List<string> temporaryBank = new List<string>(0);
         List<string> printedBank = new List<string>(0);
-        List<System.Windows.Documents.List> containerWordBanks = new List<System.Windows.Documents.List>(0);
-        public MainWindow()
+        
+
+        string currentMode = "";
+        string currfile = null;
+
+        Boolean testLoaded = false;
+        Boolean paperPass = false;
+        Boolean testModeIsEnabled = false;
+
+        int currentSentCount = 0;
+        int currentWordCount = 0;
+        int testSentencesMin, testWordsMin;
+        
+       
+        static System.Timers.Timer myTimer;
+        // Prepares View
+       public MainWindow()
         {
             InitializeComponent();
         }
 
+        //Currently Refreshes forms for Testing purposes, will be removed in final release
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Update();
             
         }
+
+        //If User types or edits the text in the content area all forms are updated with their current values
         private void Content_TextChanged(object sender, TextChangedEventArgs e)
         {
             try{
@@ -70,12 +99,16 @@ namespace basicGUI
                 }
             
         }
+        /// <summary>
+        /// Updates all of the current values possible to update based of the current content being displayed. 
+        /// Along with this updates the text labels and modes accordingly 
+        /// </summary>
         private void Update()
         {
-            //Content.IsReadOnly = false;
+            
             List<string> sentencesReturned = new List<string>(0);
             string Essay = Content.Text;
-            //getSentences(Content.Text);
+            getSentences(Essay);
             generateSentenceList();
             printedBank.Clear();
             foreach(string targetWord in temporaryBank){
@@ -98,85 +131,57 @@ namespace basicGUI
             loadedBank.Items.Refresh();
             wordsLabel.Content = UniqueWords(Content.Text);
             sentenceLabel.Content = currentSentCount.ToString();
-            //wordCount(Essay);
             
-            //getSentences(Essay);
-            
-
-            //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
-            //updateListBox();
-            //checkCriteria();
             
             
         }
-        private void Update2()
-        {
-
-            string Essay = Content.Text;
-                       //wordCount(Essay);
-            //getSentences(Essay);
-            
-
-            //FrequencyOfWord.Text = frequencyOf(FrequencyWord.Text, Essay).ToString();
-            //updateListBox();
-            //checkCriteria();
-        }
+        /// <summary>
+        /// Tokenizes the text block based off of whitespace. Assumes all tokens are valid words. Misspelled or correct
+        /// </summary>
+        /// <param name="inTextBlock"></param>
         private void wordCount(string inTextBlock)
         {
+            //Removes Excess White space
             inTextBlock = inTextBlock.Trim();
+            //Breaks everything into tokens based off white space present in the text
             List<string> words = inTextBlock.Split(' ').ToList();
+            //Removes any empty values if a user has large gaps of white space. Thus preventing an erroneous reading
             if (words.Contains(""))
             {
-                words.RemoveAll(delegate(string word){
-
-                    return word.Equals("");
-                });
-
+                words.RemoveAll(delegate(string word){return word.Equals("");});
                 currentWordCount = words.Count;
             }
             else
-            {
-                currentWordCount = words.Count;
-
-            }
+            {currentWordCount = words.Count;}
 
         }
+        /// <summary>
+        ///  Breaks inTextBlock into sentences, spliting based on the following characters "." "?" "!" 
+        /// </summary>
+        /// <param name="inTextBlock"></param>
         private void getSentences(string inTextBlock)
         {
             string[] characters = inTextBlock.Split(' ');
-            
             int increment = 0;
             int startCut = 0;
-
             inTextBlock = inTextBlock.Trim();
             for (int begin = 0; begin <= inTextBlock.Length; begin++)
             {
 
                 if (inTextBlock.Substring(startCut, begin - startCut).Contains(".") || inTextBlock.Substring(startCut, begin - startCut).Contains("?") || inTextBlock.Substring(startCut, begin - startCut).Contains("!"))
-                {
-
-                    //if (minWords.Text == "")
-                    //{
-                    //    increment++;
-                    //}
-                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
-                    //{
-                    //    increment++;
-                    //}
+                {                  
                     increment++;
                     startCut = begin;
                 }
-
-
-
             }
-
-
-
-
             currentSentCount = increment;
         }
-
+        /// <summary>
+        ///     Breaks inTextBlock into sentences, spliting based on the following characters "." "?" "!" 
+        ///     Will only increment if the sentences have the required amount of words. 
+        /// </summary>
+        /// <param name="inTextBlock"></param>
+        /// <param name="reqLength"></param>
         private void getSentences(string inTextBlock, int reqLength)
         {
             string[] characters = inTextBlock.Split(' ');
@@ -191,14 +196,6 @@ namespace basicGUI
                 if (inTextBlock.Substring(startCut, begin - startCut).Contains(".") || inTextBlock.Substring(startCut, begin - startCut).Contains("?") || inTextBlock.Substring(startCut, begin - startCut).Contains("!"))
                 {
 
-                    //if (minWords.Text == "")
-                    //{
-                    //    increment++;
-                    //}
-                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
-                    //{
-                    //    increment++;
-                    //}
                     if (inTextBlock.Substring(startCut, begin - startCut).Split(' ').Length >= reqLength)
                     { 
                         increment++;
@@ -215,85 +212,79 @@ namespace basicGUI
 
             currentSentCount = increment;
         }
+        /// <summary>
+        /// Using the dictionary functionality words are checked to see if they are contained inside the dictionary if so that value is incremented.
+        /// If not they are added. Thus the dictionary will have a quick look up and evaluation and gives an accurate result. 
+        /// </summary>
+        /// <param name="inTextBlock"></param>
+        /// <returns></returns>
         private int UniqueWords(string inTextBlock)
         {
             Dictionary<string, int> dictionary =  new Dictionary<string, int>();
             string[] words = inTextBlock.Split(' ');
-            
             foreach (string word in words)
             {
                 if (dictionary.ContainsKey(word))
                 {
-                    
                     dictionary[word] = dictionary[word]++;
-                    //System.Windows.MessageBox.Show(dictionary[word].ToString());
-                    
-
                 }
-                else
+                else {
                     dictionary.Add(word, 1);
-                
-            
+                }
             }
             return dictionary.Count;
         }
+        /// <summary>
+        /// Searchs a list for a target word, it checks if any entries within the search list have the target word then adds them to a return list. 
+        /// </summary>
+        /// <param name="targetWord"></param>
+        /// <param name="searchList"></param>
+        /// <returns></returns>
         private List<string> sentenceReturn(string targetWord, List<string> searchList)
         {
-            //int lastIndex = 0;
-            //int currentIndexWord = 0;            
-            //Boolean isMore = true;
+            
             List<string> returnList = new List<string>(0);
-
             foreach (string currSentence in searchList)
             {
                 if (currSentence.Contains(targetWord))
                     {   
                         returnList.Add(currSentence);
                     }
-                    
             }
             return returnList;
         }
+        /// <summary>
+        /// Creates a list of sentences so that they are preserved. Also increments the count of how many there are. 
+        /// </summary>
         private void generateSentenceList()
         {
             sentences.Clear();
-            
-
             int startCut = 0;
-           
-            
             string contentBlock = Content.Text.Trim().ToLower();
-            
             for (int begin = 0; begin <= contentBlock.Length; begin++)
             {
-
                 if (contentBlock.Substring(startCut, begin - startCut).Contains(".") || contentBlock.Substring(startCut, begin - startCut).Contains("?") || contentBlock.Substring(startCut, begin - startCut).Contains("!"))
                 {
-
-                    //if (minWords.Text == "")
-                    //{
-                    //    increment++;
-                    //}
-                    //else if (inTextBlock.Split(' ').Length >= Convert.ToInt32(minWords.Text))
-                    //{
-                    //    increment++;
-                    //}
                     sentences.Add(contentBlock.Substring(startCut, begin - startCut));
                     startCut = begin;
                 }
-
-
-
             }
-        
-        
         }
+        /// <summary>
+        /// Updates the GUI label of the current mode and also updates the value at currentMode to the input of currMode
+        /// </summary>
+        /// <param name="currMode"></param>
         private void setMode(string currMode)
         {
             currentMode = currMode;
             Action act = () => { modeLabel.Content = currMode; };
             Content.Dispatcher.Invoke(act);
         }
+        /// <summary>
+        /// Loads a single file, provide a dialog then selects from there if not returns nothing. Also runs update to keep content up to date. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void loadFile(object sender, RoutedEventArgs e)
         {
             //string fileText = System.IO.File.ReadAllText(@"F:\Users\Jordan\Documents\Projects\test.txt");
@@ -307,7 +298,7 @@ namespace basicGUI
             if (userClickedOK == true)
             {
                 // Open the selected file to read.
-                
+                testModeIsEnabled = false;
                 CurrFileName.Text = openFileDialog1.SafeFileName;                    
                 
                 String fileText = System.IO.File.ReadAllText(openFileDialog1.FileName);
@@ -327,6 +318,12 @@ namespace basicGUI
                 currFileList.Clear();
             }
         }
+        /// <summary>
+        /// Currently not in use, but will give you the number of times a word shows up in a target text in this case referred to as textToView
+        /// </summary>
+        /// <param name="targetWord"></param>
+        /// <param name="textToView"></param>
+        /// <returns>Frequnecy of targetWord in textToView</returns>
         public int frequencyOf(string targetWord, string textToView)
         {
              string[] textArray = textToView.Split(' ');
@@ -340,6 +337,12 @@ namespace basicGUI
              }
             return result;
         }
+        /// <summary>
+        /// Process by which a folder is loaded in, this uses the currFileList and currFile both to indicate the current position and the available options. 
+        /// Will determinte also set the current mode to batch load meaning they are just text files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void batchLoad(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog myDialog = new FolderBrowserDialog();
@@ -347,10 +350,9 @@ namespace basicGUI
             {
                 string folderPath = myDialog.SelectedPath;
                 setMode("Batch Evaluation");
-                
-
+                testModeIsEnabled = false;
                 string[] fileArray = Directory.EnumerateFiles(folderPath, "*.txt").ToArray();
-
+                //Catches if files aren't present of the selected type
                 if( fileArray.Length == 0)
                 {
                     System.Windows.Forms.MessageBox.Show("I'm sorry the directoy you've selected does not have any files to load.");
@@ -360,83 +362,206 @@ namespace basicGUI
                 {
                     currFileList.Clear();
                     currFileList = new List<string>(0);
-                
                 }
                 
                 foreach (string file in fileArray)
                 {
-                    
-                        currFileList.Add(file);
-                    
-
-                    //fileStream = new FileStream(file, FileMode.Open);
-                    //reader = new StreamReader(fileStream);
-                    
-                    //fileStream.Close();
+                    currFileList.Add(file);
                 }
                 filePosition.Text = "1 out of " + (currFileList.Capacity-1).ToString();
                 currfile = currFileList[0];
                 string croppedFile = currfile.Substring(currfile.LastIndexOf("\\")+1);
                 CurrFileName.Text = croppedFile;
                 string fileContents = System.IO.File.ReadAllText(currFileList[0]);
+                //Trims the current contents to remove any previous evaluation from the text
                 if (fileContents.Contains("-:Tyson Results:-"))
                 {
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
                     fileContents = fileContents.Substring(0, endPoint);
-
-
-
                 }
                 Content.Text = fileContents; 
             }
 
         }
-
+        /// <summary>
+        /// Process by which a folder is loaded in, this uses the currFileList and currFile both to indicate the current position and the available options. 
+        /// Will determinte also set the current mode to batch load meaning they are just text files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>       
         private void previousFile(object sender, RoutedEventArgs e)
         {
             if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) <= 0)
-            {
-                
-            } 
+            {} 
             else
             {
+                /*Variables
+                 * Index: Where the desired file falls inside of the currFile List
+                 *  currfile: Updated file location
+                 *  croppedfile: The name of the file which is cleaned for display
+                 *  fileContents: Raw unmanipulated file contents                 *  
+                 */
+                
                 int index = currFileList.IndexOf(currfile) - 1 ;
                 currfile = currFileList[index];
                 string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
                 CurrFileName.Text = croppedFile;
-                string orgText = System.IO.File.ReadAllText(currfile);
-                string fileContents = decryptText(orgText);
+                string fileContents;
+                //Logic whether or not the file is encrypted or not
+                if (testModeIsEnabled == true)
+                {
+                    string orgText = System.IO.File.ReadAllText(currfile);
+                    fileContents = decryptText(orgText);
+                }
+                else {
+                    fileContents = System.IO.File.ReadAllText(currfile);
+                }
+                //Checks if the file has been evaluated if so removes that evaluation text for clearer display
                 if (fileContents.Contains("-:Tyson Results:-"))
                 {
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
-                    fileContents = fileContents.Substring(0, endPoint);}
-                
+                    fileContents = fileContents.Substring(0, endPoint);
+                }
+                //Updates GUI values
                 filePosition.Text =  (index+1).ToString() + " out of " + (currFileList.Count).ToString();
                 Content.Text = fileContents;
                 Update();
             }
 
-        }        
+        }
+        /// <summary>
+        /// Used when you want to move the currFile back within the code but not off the click listener
+        /// </summary>
+        private void previousFile()
+        {
+            if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) <= 0)
+            {}
+            else
+            {
+
+                /*Variables
+                 * Index: Where the desired file falls inside of the currFile List
+                 *  currfile: Updated file location
+                 *  croppedfile: The name of the file which is cleaned for display
+                 *  fileContents: Raw unmanipulated file contents                 *  
+                 */
+
+                int index = currFileList.IndexOf(currfile) - 1;
+                currfile = currFileList[index];
+                string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
+                string fileContents;
+                //Logic whether or not the file is encrypted or not
+                if (testModeIsEnabled == true)
+                {
+                    string orgText = System.IO.File.ReadAllText(currfile);
+                    fileContents = decryptText(orgText);
+                }
+                else
+                {
+
+                    fileContents = System.IO.File.ReadAllText(currfile);
+                }
+                //Checks if the file has been evaluated if so removes that evaluation text for clearer display
+                if (fileContents.Contains("-:Tyson Results:-"))
+                {
+                    int endPoint = fileContents.IndexOf("-:Tyson Results:-");
+                    fileContents = fileContents.Substring(0, endPoint);
+                }
+
+                //Updates GUI values
+                Action act = () => { filePosition.Text = (index + 1).ToString() + " out of " + (currFileList.Count).ToString(); CurrFileName.Text = croppedFile; Content.Text = fileContents; };
+                Content.Dispatcher.Invoke(act);
+                Update();
+            }
+
+        }
+        /// <summary>
+        /// Used when you want to move the currFile back within the code but not off the click listener
+        /// </summary>
+        private void nextFile()
+        {
+            if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) + 1 > currFileList.Count - 1)
+            {}
+
+            else
+            {
+
+                /*Variables
+                 * Index: Where the desired file falls inside of the currFile List
+                 *  currfile: Updated file location
+                 *  croppedfile: The name of the file which is cleaned for display
+                 *  fileContents: Raw unmanipulated file contents                 *  
+                 */
+                int index = currFileList.IndexOf(currfile) + 1;
+                currfile = currFileList[index];
+                string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
+                string fileContents;
+
+                //Logic whether or not the file is encrypted or not
+                if (testModeIsEnabled == true)
+                {
+                    string orgText = System.IO.File.ReadAllText(currfile);
+                    fileContents = decryptText(orgText);
+                }
+                else
+                {
+
+                    fileContents = System.IO.File.ReadAllText(currfile);
+                }
+                //Checks if the file has been evaluated if so removes that evaluation text for clearer display
+                if (fileContents.Contains("-:Tyson Results:-"))
+                {
+                    int endPoint = fileContents.IndexOf("-:Tyson Results:-");
+                    fileContents = fileContents.Substring(0, endPoint);
+                }
+                //Updates GUI values
+                Action act = () => { filePosition.Text = (index + 1).ToString() + " out of " + (currFileList.Count).ToString();  CurrFileName.Text = croppedFile; Content.Text = fileContents; };
+                Content.Dispatcher.Invoke(act);
+                Update();
+            }
+        }
+        /// <summary>
+        /// Process by which a folder is loaded in, this uses the currFileList and currFile both to indicate the current position and the available options. 
+        /// Will determinte also set the current mode to batch load meaning they are just text files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nextFile(object sender, RoutedEventArgs e)
         {
             if (currFileList.Count == 0 || currfile == null || currFileList.IndexOf(currfile) + 1 > currFileList.Count - 1)
-            {
-                
-            }          
+            {}          
             
             else
             {
+                /*Variables
+                 * Index: Where the desired file falls inside of the currFile List
+                 *  currfile: Updated file location
+                 *  croppedfile: The name of the file which is cleaned for display
+                 *  fileContents: Raw unmanipulated file contents                 *  
+                 */
                 int index = currFileList.IndexOf(currfile) + 1;
                 currfile = currFileList[index];
                 string croppedFile = currfile.Substring(currfile.LastIndexOf("\\") + 1);
                 CurrFileName.Text = croppedFile;
-                string orgText = System.IO.File.ReadAllText(currfile);
-                string fileContents = decryptText(orgText);
+                string fileContents;
+                //Logic whether or not the file is encrypted or not
+                if (testModeIsEnabled == true)
+                {
+                    string orgText = System.IO.File.ReadAllText(currfile);
+                    fileContents = decryptText(orgText);
+                }
+                else
+                {
+
+                    fileContents = System.IO.File.ReadAllText(currfile);
+                }
+                //Checks if the file has been evaluated if so removes that evaluation text for clearer display
                 if (fileContents.Contains("-:Tyson Results:-"))
                 {
                     int endPoint = fileContents.IndexOf("-:Tyson Results:-");
-                    fileContents = fileContents.Substring(0, endPoint);}
-                
+                    fileContents = fileContents.Substring(0, endPoint);
+                }
+                //Updates GUI values
                 filePosition.Text = (index+1).ToString() + " out of " + (currFileList.Count).ToString();
                 Content.Text = fileContents;
                 Update();
@@ -445,15 +570,20 @@ namespace basicGUI
         //Needs to be finished
         private void completeCurrentBatch(object sender, RoutedEventArgs e)
         {
+            while (currFileList.IndexOf(currfile) != 0)
+            {
+                previousFile();
+            }
 
             foreach (string file in currFileList)
             {
                 if (currentMode.Equals("Batch Test Evaluation"))
                 {
                     string path = Directory.GetCurrentDirectory();
-                    string fileName = "Ressult" + file.Substring(file.LastIndexOf("\\") + 1).Replace("tyTxt", ".txt");
+                    string fileName = "Result" + file.Substring(file.LastIndexOf("\\") + 1).Replace("tyTxt", ".txt");
                     using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(path+fileName, false))
                     {
+                       
                         string Essay = Content.Text;
                         wordCount(Essay);
                         getSentences(Essay,testWordsMin);
@@ -490,12 +620,13 @@ namespace basicGUI
 
 
 
-
+                    nextFile();
                 }
                 else
                 {
                     using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(file, false))
                     {
+                        
                         string Essay = Content.Text;
                         wordCount(Essay);
                         getSentences(Essay);
@@ -508,7 +639,7 @@ namespace basicGUI
                      
                         outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
 
-
+                        nextFile();
                     }
                 }
                 
@@ -540,12 +671,14 @@ namespace basicGUI
         
         
         //}
+        /// <summary>
+        /// Saves only the currently selected file and evaluates it.Provides
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exporttoFile(object sender, RoutedEventArgs e)
         {
-
-            if (true == true)
-            {
-                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile, false))
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(currfile, false))
                 {
                     string Essay = Content.Text;
                     outputFile.WriteLine(Essay);
@@ -554,41 +687,27 @@ namespace basicGUI
                     outputFile.WriteLine("Total Sentences: " + currentSentCount.ToString());
                     outputFile.WriteLine("Word Count: " + currentWordCount.ToString());
                     outputFile.WriteLine("Unique Words: " + (UniqueWords(Essay).ToString()));
-                    if (paperPass == true)
-                    {
-                        outputFile.WriteLine("Paper Passes the Criteria");
-                    }
-                    else
-                        outputFile.WriteLine("Paper Does not pass the Criteria");
+                    
                     outputFile.WriteLine("File up to date as of: " + DateTime.Now.ToShortDateString());
-
-
-                }
-               
-            }
-            
-            
+                  }
         }
         
 
-        private void FrequencyOfWord_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
-        private void timerElapsed(object sender, ElapsedEventArgs e)
-        {
-            myTimer.Enabled = false;
-            Action act = () => { Content.IsReadOnly = !Content.IsReadOnly; };
-            Content.Dispatcher.Invoke(act);
-            
-        
-        }
-
+        /// <summary>
+        /// Adds a single word to the current tests word bank and shows it via the listbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void submitWord(object sender, RoutedEventArgs e)
         {
                 testWordBank.Add(testWordEntry.Text);
                 updateListBoxTest();
         }
+        /// <summary>
+        /// Checks the current content against the current test word bank, not the word banks loaded into the page
+        /// </summary>
+        /// <returns></returns>
         private Boolean wordBankEval()
         {
             if (Content.Text.Length > 0)
@@ -617,14 +736,18 @@ namespace basicGUI
                 return false;
         }
         
-
+        
         private void updateListBoxTest()
         {
             testWordBox.ItemsSource = testWordBank;
             testWordBox.Items.Refresh();
         }
         
-
+        /// <summary>
+        /// Removes a single word from the test word bank 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeSelectedTest(object sender, RoutedEventArgs e)
         {
            
@@ -637,6 +760,7 @@ namespace basicGUI
 
             }
         }
+        
         private void exportTest(object sender, RoutedEventArgs e)
         {
             List<string> filecontents = new List<string>(0);
@@ -1004,8 +1128,8 @@ namespace basicGUI
             {
                 string folderPath = myDialog.SelectedPath;
                 setMode("Batch Test Evaluation");
-                
 
+                testModeIsEnabled = true;
                 string[] fileArray = Directory.EnumerateFiles(folderPath, "*.tyTxt").ToArray();
 
                 if( fileArray.Length == 0)
